@@ -378,12 +378,25 @@ def main():
     for e in E.values():
         if e.get("has"):
             lv[e["has"]["n"]] += 1
+    # prix médian selon le niveau officiel, en tout et par statut (groupes d'au moins 20 EHPAD)
+    pq = [e for e in E.values() if e.get("mois") and e.get("has")]
+    def grp(rows):
+        out = {}
+        for L in LEVELS:
+            x = [e["mois"] for e in rows if e["has"]["n"] == L]
+            if len(x) >= 20:
+                out[L] = [len(x), median(x)]
+        return out
+    qp = {"all": grp(pq), "n": len(pq),
+          "st": {s: grp([e for e in pq if e["has"]["st"] == s])
+                 for s in ("Public", "Privé à but non lucratif", "Privé commercial")}}
     nat = {
         "n": len(E), "np": len(allm), "nh": sum(lv.values()),
         "med": median(allm), "d1": round(q[0]), "d9": round(q[8]),
         "hist": [[k, bins[k]] for k in sorted(bins)],
-        "cher": [[deps[k]["nom"], m] for m, k in depmed[::-1][:5]],
-        "moins": [[deps[k]["nom"], m] for m, k in depmed[:5]],
+        "cher": [[deps[k]["nom"], m, deps[k]["slug"]] for m, k in depmed[::-1][:5]],
+        "moins": [[deps[k]["nom"], m, deps[k]["slug"]] for m, k in depmed[:5]],
+        "qp": qp,
         "ash": [len(ashm), median(ashm), len(nonm), median(nonm)],
         "nash": sum(1 for e in E.values() if e["ash"]),
         "levels": {k: lv[k] for k in LEVELS},
