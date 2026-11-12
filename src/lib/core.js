@@ -433,11 +433,11 @@ export function renderActus({ nat, news, meta }) {
     </div>
     ${nat.qp ? qualityPrice(nat.qp) : ""}
   </div>
-  <p class="src">Calculs EHPAD Arena d'après les prix déclarés à la CNSA, les évaluations de la HAS et l'annuaire FINESS.</p>
+  <p class="src">Calculs EHPAD Arena d'après les données publiques : <a href="https://www.data.gouv.fr/fr/datasets/prix-hebergement-et-tarifs-dependance-des-ehpad-donnees-brutes/" target="_blank" rel="noopener">prix déclarés à la CNSA</a>, <a href="https://www.data.gouv.fr/fr/datasets/resultats-devaluation-des-etablissements-et-services-sociaux-et-medico-sociaux-essms/" target="_blank" rel="noopener">évaluations de la HAS</a> et <a href="https://www.data.gouv.fr/fr/datasets/finess-extraction-du-fichier-des-etablissements/" target="_blank" rel="noopener">annuaire FINESS</a>. <a href="/a-propos/">Notre méthode</a>.</p>
 </div></section>
 <section class="block"><div class="wrap">
   <h2>Actualités</h2>
-  <div class="news">${news.map((a) => `<article class="card"><time datetime="${a.date}">${dateFr(a.date)}</time><h3>${esc(a.title)}</h3><p>${esc(a.text)}</p>${a.why ? `<p class="why"><b>Ce que ça change pour vous.</b> ${esc(a.why)}</p>` : ""}<a href="${a.url}" target="_blank" rel="noopener">Source : ${esc(a.source)}</a></article>`).join("")}</div>
+  <div class="news">${news.map((a) => `<article class="card"><time datetime="${a.date}">${dateFr(a.date)}</time><h3><a class="nt" href="${a.url}" target="_blank" rel="noopener">${esc(a.title)}</a></h3><p>${esc(a.text)}</p>${a.why ? `<p class="why"><b>Ce que ça change pour vous.</b> ${esc(a.why)}</p>` : ""}<a class="srcb" href="${a.url}" target="_blank" rel="noopener"><span>Lire la source</span><b>${esc(a.source)}</b><small>${esc(new URL(a.url).hostname.replace(/^www\./, ""))} ↗</small></a></article>`).join("")}</div>
 </div></section>`;
 }
 
