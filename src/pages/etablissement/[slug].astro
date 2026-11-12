@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderFiche, seo, inCity, inDep } from "../../lib/core.js";
+import { load, ehpadOf, gUrl } from "../../lib/data.js";
+import { SITE_URL } from "../../lib/site.js";
+
+export function getStaticPaths() {
+  const { ehpad, communes } = load();
+  const all = Object.values(ehpad).sort((a, b) => (communes[b.c]?.pop || 0) - (communes[a.c]?.pop || 0));
+  const lim = Number(process.env.LIMIT_PAGES || 0);
+  return (lim ? all.slice(0, lim * 4) : all).map((e) => ({ params: { slug: e.slug }, props: { id: e.id } }));
+}
+const { id } = Astro.props;
+const s = load();
+const e = s.ehpad[id];
+const c = s.communes[e.c];
+const dep = s.deps[e.dep];
+// graphique : les EHPAD de la commune s'ils sont au moins 5 avec un prix, sinon ceux du département
+const cityPriced = c.ids.filter((i) => s.ehpad[i].mois).length;
+const peers = ehpadOf(cityPriced >= 5 ? c.ids : dep.ids);
+peers.place = cityPriced >= 5 ? inCity(c) : inDep(dep);
+const m = seo("fiche", { e });
+const jsonld = {
+  "@context": "https://schema.org", "@type": "NursingHome", name: e.nom,
+  address: { "@type": "PostalAddress", streetAddress: e.adr, postalCode: e.cp, addressLocality: e.ville, addressCountry: "FR" },
+  ...(e.tel ? { telephone: e.tel.replace(/ /g, "") } : {}),
+  ...(e.geo ? { geo: { "@type": "GeoCoordinates", latitude: e.geo[0], longitude: e.geo[1] } } : {}),
+  ...(SITE_URL ? { url: SITE_URL + Astro.url.pathname } : {}),
+};
+---
+<Base title={m.title} description={m.desc} page="fiche" jsonld={jsonld}>
+  <Fragment set:html={renderFiche({ e, c, dep, peers, gUrl: gUrl(e) })} />
+</Base>

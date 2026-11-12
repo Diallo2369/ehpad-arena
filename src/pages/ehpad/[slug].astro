@@ -1,0 +1,20 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderCommune, seo } from "../../lib/core.js";
+import { load, ehpadOf } from "../../lib/data.js";
+
+export function getStaticPaths() {
+  const { communes } = load();
+  const all = Object.values(communes).sort((a, b) => b.n - a.n);
+  const lim = Number(process.env.LIMIT_PAGES || 0);
+  return (lim ? all.slice(0, lim) : all).map((c) => ({ params: { slug: c.slug }, props: { code: c.c } }));
+}
+const { code } = Astro.props;
+const s = load();
+const c = s.communes[code];
+const kids = (c.kids || []).map((k) => s.communes[k]);
+const m = seo("commune", { c });
+---
+<Base title={m.title} description={m.desc} page="commune" noindex={c.n < 2}>
+  <Fragment set:html={renderCommune({ c, es: ehpadOf(c.ids), dep: s.deps[c.dep], kids })} />
+</Base>

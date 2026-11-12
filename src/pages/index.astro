@@ -1,0 +1,10 @@
+---
+import Base from "../layouts/Base.astro";
+import { renderHome, seo } from "../lib/core.js";
+import { load } from "../lib/data.js";
+const s = load();
+const cities = Object.values(s.communes).filter((c) => !c.parent && c.n >= 5).sort((a, b) => b.pop - a.pop).slice(0, 16);
+const deps = Object.values(s.deps).sort((a, b) => a.code.localeCompare(b.code));
+const m = seo("home");
+---
+<Base title={m.title} description={m.desc} page="home"><Fragment set:html={renderHome({ nat: s.nat, cities, deps })} /></Base>

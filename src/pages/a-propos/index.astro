@@ -1,0 +1,6 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderAbout } from "../../lib/core.js";
+import { CONTACT } from "../../lib/site.js";
+---
+<Base title="À propos" description="Pourquoi EHPAD Arena, d'où viennent les prix et les évaluations, comment la note sur 10 est calculée." page="about"><Fragment set:html={renderAbout({ contact: CONTACT })} /></Base>

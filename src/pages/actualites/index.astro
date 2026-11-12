@@ -1,0 +1,8 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderActus } from "../../lib/core.js";
+import { load } from "../../lib/data.js";
+import { NEWS } from "../../lib/news.js";
+const s = load();
+---
+<Base title="Actualités et chiffres des EHPAD" description="Prix des EHPAD par département, écart selon l'aide sociale, niveaux de qualité : les chiffres calculés sur les données publiques, et l'actualité officielle." page="actus"><Fragment set:html={renderActus({ nat: s.nat, news: NEWS })} /></Base>

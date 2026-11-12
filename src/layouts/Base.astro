@@ -1,0 +1,86 @@
+---
+import "@fontsource-variable/bricolage-grotesque/opsz.css";
+import "@fontsource-variable/schibsted-grotesk/index.css";
+import "../styles/site.css";
+import { SITE_NAME, SITE_URL, INDEXABLE, CONTACT } from "../lib/site.js";
+import { ADS } from "../lib/ads.js";
+import { load } from "../lib/data.js";
+
+const { title, description, page, noindex = false, jsonld = null } = Astro.props;
+const { meta } = load();
+const canonical = SITE_URL ? SITE_URL + Astro.url.pathname : null;
+const fullTitle = page === "home" ? title : `${title} | ${SITE_NAME}`;
+const nav = [["aides", "/aides/", "Aides"], ["actus", "/actualites/", "Actualités"], ["about", "/a-propos/", "À propos"]];
+const search = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+---
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  {(!INDEXABLE || noindex) && <meta name="robots" content="noindex" />}
+  {canonical && <link rel="canonical" href={canonical} />}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={SITE_NAME} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  {SITE_URL && <meta property="og:image" content={SITE_URL + "/og.png"} />}
+  {SITE_URL && <meta property="og:image:width" content="1200" />}
+  {SITE_URL && <meta property="og:image:height" content="630" />}
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#2f1b46" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />}
+  {ADS.enabled && ADS.client && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADS.client}`} crossorigin="anonymous"></script>}
+</head>
+<body data-page={page}>
+  <a class="skip" href="#app">Aller au contenu</a>
+  <header class="top">
+    <div class="wrap">
+      <a class="logo" href="/" aria-label="EHPAD Arena, accueil"><i aria-hidden="true"></i>EHPAD Arena</a>
+      <button type="button" class="nav" id="findBtn" aria-controls="sov" aria-label="Rechercher une commune"><Fragment set:html={search} /><span class="hide-m">Rechercher</span></button>
+      {nav.map(([k, href, label]) => <a class="nav hide-m" href={href} aria-current={k === page ? "page" : undefined}>{label}</a>)}
+      <button type="button" class="nav burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu"><svg class="i-b" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="i-x" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </header>
+  <nav id="menu" class="menu" aria-label="Menu" hidden>
+    <a href="/">Accueil</a>
+    <button type="button" id="menuFind">Rechercher une commune</button>
+    <a href="/comparer/">Ma comparaison</a>
+    <a href="/aides/">Les aides</a>
+    <a href="/actualites/">Actualités</a>
+    <a href="/a-propos/">À propos</a>
+  </nav>
+  <div class="sov" id="sov" role="dialog" aria-modal="true" aria-label="Rechercher une commune ou un établissement" hidden>
+    <div class="sov-panel wrap">
+      <form class="search" role="search" action="/" data-search>
+        <Fragment set:html={search} /><input id="q2" type="search" autocomplete="off" enterkeyhint="search" placeholder="Commune ou nom de l'EHPAD" aria-label="Commune ou nom de l'EHPAD" role="combobox" aria-expanded="false" aria-controls="q2-s" aria-autocomplete="list">
+        <div id="q2-s" class="sugg" role="listbox" hidden></div>
+      </form>
+      <button type="button" class="btn ghost on-dark" id="sovX">Fermer</button>
+    </div>
+  </div>
+  <main id="app" tabindex="-1"><slot /></main>
+  <aside class="fam" aria-label="Les sites Arena">
+    <div class="wrap">
+      <span class="t">Les sites Arena</span>
+      <a href="https://jobarena.org/fr/"><b>Job Arena</b><span> · les métiers face à l'IA</span></a>
+      <a href="https://scolarena.fr/"><b>Scol Arena</b><span> · collèges et lycées près de chez vous</span></a>
+      <a href="https://eauarena.fr/"><b>Eau Arena</b><span> · qualité de l'eau du robinet</span></a>
+    </div>
+  </aside>
+  <footer>
+    <div class="wrap">
+      <nav><a href="/">Accueil</a><a href="/aides/">Les aides</a><a href="/actualites/">Actualités</a><a href="/a-propos/">À propos</a><a href="/mentions-legales/">Mentions légales</a><a href="/confidentialite/">Confidentialité</a></nav>
+      <p>Prix : CNSA, déclarations des établissements ({meta.cnsa.map((p) => p.length === 4 ? p : p.slice(4) + "/" + p.slice(0, 4)).join(", ")}). Qualité : Haute Autorité de santé, résultats d'évaluation{meta.hasUpdated && ` (mis à jour le ${meta.hasUpdated.split("-").reverse().join("/")})`}. Annuaire : FINESS.</p>
+      <p>Aucune inscription, {ADS.enabled ? "" : "aucun cookie, "}jamais de mise en avant payée par un établissement. Contact : <span class="sel">{CONTACT}</span></p>
+    </div>
+  </footer>
+  <script src="../scripts/app.js"></script>
+</body>
+</html>

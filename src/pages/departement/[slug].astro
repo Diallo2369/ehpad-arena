@@ -1,0 +1,17 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderDep, seo } from "../../lib/core.js";
+import { load, ehpadOf } from "../../lib/data.js";
+
+export function getStaticPaths() {
+  const { deps } = load();
+  return Object.values(deps).map((d) => ({ params: { slug: d.slug }, props: { code: d.code } }));
+}
+const { code } = Astro.props;
+const s = load();
+const d = s.deps[code];
+const m = seo("dep", { d });
+---
+<Base title={m.title} description={m.desc} page="dep">
+  <Fragment set:html={renderDep({ d, es: ehpadOf(d.ids), communes: d.communes.map((k) => s.communes[k]), nat: s.nat })} />
+</Base>

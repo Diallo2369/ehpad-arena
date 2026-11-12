@@ -1,0 +1,5 @@
+---
+import Base from "../../layouts/Base.astro";
+import { renderCompare } from "../../lib/core.js";
+---
+<Base title="Votre comparaison" description="Comparez jusqu'à 3 EHPAD côte à côte : prix, niveau officiel, note et aide sociale." page="compare" noindex={true}><Fragment set:html={renderCompare()} /></Base>

@@ -1,0 +1,21 @@
+---
+import Base from "../../layouts/Base.astro";
+import { CONTACT } from "../../lib/site.js";
+import { ADS } from "../../lib/ads.js";
+---
+<Base title="Confidentialité" description="EHPAD Arena ne demande aucune inscription et ne conserve aucune donnée sur ses visiteurs." page="legal">
+  <section class="band"><div class="wrap"><h1>Confidentialité</h1><p class="lede">En bref : aucune inscription, aucune donnée personnelle conservée{ADS.enabled ? "." : ", aucun cookie."}</p></div></section>
+  <section class="block"><div class="wrap"><div class="prose">
+    <h2>Ce que nous ne faisons pas</h2>
+    <p>EHPAD Arena ne demande ni inscription, ni adresse e-mail. La recherche se fait entièrement dans votre navigateur, à partir de fichiers publics téléchargés depuis ce site. Si vous utilisez « Autour de moi », votre position est utilisée dans votre navigateur pour trier les établissements, et n'est envoyée à aucun serveur.</p>
+    <p>Votre comparaison (les établissements que vous cochez) est gardée dans votre navigateur seulement.</p>
+    {!ADS.enabled && <p>Le site n'utilise aucun cookie et aucun outil de mesure d'audience ou de publicité.</p>}
+    {ADS.enabled && <p>Le site affiche de la publicité fournie par Google AdSense. Avec votre accord, recueilli par le bandeau de consentement, Google peut déposer des cookies pour mesurer et personnaliser les annonces.</p>}
+    <h2>Liens vers Google</h2>
+    <p>Le bouton « Lire les avis » ouvre Google Maps dans un nouvel onglet. Google traite alors votre visite selon sa propre politique de confidentialité.</p>
+    <h2>Données techniques</h2>
+    <p>Comme tout site web, l'hébergeur (GitHub Pages) reçoit l'adresse IP de votre appareil pour vous envoyer les pages et protéger le service. Le nom de domaine est géré par Cloudflare (DNS uniquement). Les polices de caractères sont hébergées sur ce site.</p>
+    <h2>Vos droits</h2>
+    <p>EHPAD Arena ne détient aucune donnée personnelle vous concernant. Pour toute question : <span class="sel">{CONTACT}</span>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+  </div></div></section>
+</Base>
