@@ -6,4 +6,4 @@ export const INDEXABLE = Boolean(SITE_URL) && (import.meta.env.NOINDEX || proces
 export const CONTACT = "contact@ehpadarena.fr";
 // Mesure d'audience Cloudflare Web Analytics : sans cookie, chiffres agrégés. Le jeton n'est pas secret
 // (il apparaît dans chaque page). Chargé seulement sur le site ouvert à Google. Vide = mesure désactivée.
-export const ANALYTICS_TOKEN = "";
+export const ANALYTICS_TOKEN = "a33f385668504289b2545138892a568e";
