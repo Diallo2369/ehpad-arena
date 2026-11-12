@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { CONTACT } from "../../lib/site.js";
+import { CONTACT, ANALYTICS_TOKEN } from "../../lib/site.js";
 import { ADS } from "../../lib/ads.js";
 ---
 <Base title="Confidentialité" description="EHPAD Arena ne demande aucune inscription et ne conserve aucune donnée sur ses visiteurs." page="legal">
@@ -9,7 +9,8 @@ import { ADS } from "../../lib/ads.js";
     <h2>Ce que nous ne faisons pas</h2>
     <p>EHPAD Arena ne demande ni inscription, ni adresse e-mail. La recherche se fait entièrement dans votre navigateur, à partir de fichiers publics téléchargés depuis ce site. Si vous utilisez « Autour de moi », votre position est utilisée dans votre navigateur pour trier les établissements, et n'est envoyée à aucun serveur.</p>
     <p>Votre comparaison (les établissements que vous cochez) est gardée dans votre navigateur seulement.</p>
-    {!ADS.enabled && <p>Le site n'utilise aucun cookie et aucun outil de mesure d'audience ou de publicité.</p>}
+    {!ADS.enabled && <p>Le site n'utilise aucun cookie{ANALYTICS_TOKEN ? " et aucun outil de publicité." : " et aucun outil de mesure d'audience ou de publicité."}</p>}
+    {ANALYTICS_TOKEN && <><h2>Mesure d'audience</h2><p>Pour savoir combien de personnes consultent le site et quelles pages sont utiles, nous utilisons Cloudflare Web Analytics. Cet outil ne dépose aucun cookie, ne stocke rien sur votre appareil et ne vous suit pas d'un site à l'autre : il compte les pages vues de façon agrégée (page, pays, type d'appareil, site d'où vous venez), sans permettre de vous identifier. Il ne nécessite donc pas votre consentement.</p></>}
     {ADS.enabled && <p>Le site affiche de la publicité fournie par Google AdSense. Avec votre accord, recueilli par le bandeau de consentement, Google peut déposer des cookies pour mesurer et personnaliser les annonces.</p>}
     <h2>Liens vers Google</h2>
     <p>Le bouton « Lire les avis » ouvre Google Maps dans un nouvel onglet. Google traite alors votre visite selon sa propre politique de confidentialité.</p>

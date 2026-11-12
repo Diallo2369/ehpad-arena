@@ -2,7 +2,7 @@
 import "@fontsource-variable/bricolage-grotesque/opsz.css";
 import "@fontsource-variable/schibsted-grotesk/index.css";
 import "../styles/site.css";
-import { SITE_NAME, SITE_URL, INDEXABLE, CONTACT } from "../lib/site.js";
+import { SITE_NAME, SITE_URL, INDEXABLE, CONTACT, ANALYTICS_TOKEN } from "../lib/site.js";
 import { ADS } from "../lib/ads.js";
 import { load } from "../lib/data.js";
 
@@ -82,5 +82,6 @@ const search = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stro
     </div>
   </footer>
   <script src="../scripts/app.js"></script>
+  {INDEXABLE && ANALYTICS_TOKEN && <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })}></script>}
 </body>
 </html>
