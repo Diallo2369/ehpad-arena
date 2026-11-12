@@ -173,11 +173,11 @@ export function renderHome({ nat, cities, regions }) {
 </div></section>
 <section class="block"><div class="wrap">
   <h2>Les grandes villes</h2>
-  <p class="sect-sub">Prix médian d'une chambre seule, par mois, comparé à la France (${eur(nat.med)}).</p>
+  <p class="sect-sub">Prix médian d'une chambre seule, comparé à celui de la France entière : ${eur(nat.med)} par mois.</p>
   <ul class="cities">${cities.map((c) => {
-    const d = c.med ? Math.round(((c.med - nat.med) / nat.med) * 100) : null;
-    const tag = d === null ? "" : `<em class="vs ${d > 2 ? "up" : d < -2 ? "dn" : "eq"}">${d > 2 ? "+" + d + " %" : d < -2 ? "−" + -d + " %" : "≈ France"}</em>`;
-    return `<li><a href="${communeUrl(c)}"><span class="ct"><b>${esc(c.nom)}</b><small>${c.dep}</small></span><span class="cp num">${c.med ? eur(c.med) : "–"}${tag}</span><span class="cn">${c.n} EHPAD</span></a></li>`;
+    const g = c.med ? c.med - nat.med : null, k = g === null ? "" : g > 50 ? "up" : g < -50 ? "dn" : "eq";
+    const tag = g === null ? "" : `<em class="vs ${k}">${k === "up" ? `${eur(g)} de plus qu'en France` : k === "dn" ? `${eur(-g)} de moins qu'en France` : "Comme en France"}</em>`;
+    return `<li><a href="${communeUrl(c)}"><span class="ct"><b>${esc(c.nom)}</b><small>${c.dep}</small></span><span class="cp num">${c.med ? eur(c.med) : "–"}<small>par mois</small></span>${tag}<span class="cn">${c.n} EHPAD</span></a></li>`;
   }).join("")}</ul>
   <div class="dep-h"><h2>Par département</h2><label class="dep-f">${ICON.search}<input type="search" placeholder="Nom ou numéro" aria-label="Filtrer les départements" data-depfilter autocomplete="off"></label></div>
   <p class="sect-sub">Prix médian par mois. Cliquez pour voir les EHPAD du département, commune par commune.</p>
