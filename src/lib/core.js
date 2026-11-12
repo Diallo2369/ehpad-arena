@@ -441,30 +441,61 @@ export function renderActus({ nat, news, meta }) {
 </div></section>`;
 }
 
-export function renderAbout({ contact }) {
-  return `<section class="band"><div class="wrap"><h1>À propos d'EHPAD Arena</h1><p class="lede">Pourquoi ce site et d'où viennent les chiffres.</p></div></section>
-<section class="block"><div class="wrap"><div class="prose">
+export function renderAbout({ contact, nat, meta, cs, g56 }) {
+  const DG = "https://www.data.gouv.fr/fr/datasets/";
+  const SRC = [
+    ["Prix", "CNSA", "Caisse nationale de solidarité pour l'autonomie", "Les prix d'hébergement et les tarifs dépendance déclarés par chaque EHPAD.", `Mis à jour le ${dateFr(meta.cnsaUpdated)}`, DG + "prix-hebergement-et-tarifs-dependance-des-ehpad-donnees-brutes/"],
+    ["Qualité", "HAS", "Haute Autorité de santé", "Les résultats des évaluations : niveau officiel, 9 thèmes notés, exigences essentielles.", `Mis à jour le ${dateFr(meta.hasUpdated)}`, DG + "resultats-devaluation-des-etablissements-et-services-sociaux-et-medico-sociaux-essms/"],
+    ["Annuaire", "FINESS", "Ministère de la Santé", "Le nom, l'adresse, le téléphone, le statut et la position de chaque établissement.", esc(meta.finess), DG + "finess-extraction-du-fichier-des-etablissements/"],
+  ];
+  const ENG = [
+    ["Gratuit", "Toutes les pages, pour tout le monde."],
+    ["Sans inscription", "Aucun compte, aucune adresse e-mail demandée."],
+    ["Indépendant", "Aucun établissement ne peut payer pour être mis en avant ou modifier sa fiche."],
+    ["Sans cookie", "Aucun cookie tant que la publicité est éteinte."],
+  ];
+  return `<section class="band"><div class="wrap"><h1>À propos d'EHPAD Arena</h1><p class="lede">Pourquoi ce site et d'où viennent les chiffres.</p>
+  <div class="ab-stats num"><div><b>${cnt(nat.n, "int")}</b><span>EHPAD en France</span></div><div><b>${cnt(nat.np, "int")}</b><span>avec un prix publié</span></div><div><b>${cnt(nat.nh, "int")}</b><span>évalués par la HAS</span></div><div><b>3</b><span>sources officielles</span></div></div></div></section>
+<section class="block"><div class="wrap">
   <h2>Pourquoi ce site</h2>
-  <p>Choisir un EHPAD se fait souvent dans l'urgence, après une chute ou une hospitalisation. Les informations utiles existent et sont publiques, mais elles sont dispersées : les prix sur un site, l'évaluation de la qualité sur un autre, les avis des familles ailleurs.</p>
-  <p>EHPAD Arena les réunit sur une seule page par établissement, avec un résumé lisible en quelques secondes : le prix par mois, une note de qualité et les avis. Le site est gratuit et indépendant des établissements. Il fait partie de la famille Job Arena, Scol Arena et Eau Arena.</p>
-  <h2>Les sources</h2>
-  <ul>
-    <li><b>Prix</b> : « Prix hébergement et tarifs dépendance des EHPAD », Caisse nationale de solidarité pour l'autonomie (CNSA), sur data.gouv.fr. Ce sont les prix déclarés par les établissements.</li>
-    <li><b>Qualité</b> : « Résultats d'évaluation des établissements et services sociaux et médico-sociaux », Haute Autorité de santé (HAS), Licence Ouverte 2.0.</li>
-    <li><b>Nom, adresse, téléphone</b> : répertoire FINESS du ministère de la Santé, sur data.gouv.fr.</li>
-  </ul>
-  <h2>Le prix par mois</h2>
-  <p>Prix d'hébergement d'une chambre seule, plus le tarif dépendance GIR 5-6 qui reste à la charge de tout résident, multipliés par 30 jours. Le montant est affiché avant les aides. Il s'agit du dernier tarif déclaré : un tarif plus récent peut s'appliquer.</p>
-  <h2>Le niveau officiel et notre note sur 10</h2>
-  <p>La HAS classe chaque établissement évalué sur 4 niveaux, de A (le meilleur) à D. Nous affichons ce niveau tel quel, avec la date de l'évaluation.</p>
-  <p>Pour départager les établissements d'un même niveau, nous calculons une note sur 10 à partir de la même évaluation : les 9 thèmes notés comptent pour 70 %, les exigences essentielles respectées pour 30 %. Le classement respecte toujours le niveau officiel : les établissements sont classés par niveau (A, puis B, puis C, puis D), puis par note. Il ne compte que les établissements dont l'évaluation est publiée. La HAS évalue surtout l'organisation et la démarche qualité ; elle précise que ce premier cycle se prête mal aux comparaisons.</p>
-  <h2>Les avis des familles</h2>
-  <p>EHPAD Arena ne recueille aucun avis. Ceux des familles sont publiés sur Google et ne comptent pas dans notre note.</p>
+  <div class="ab-why">
+    <div class="ab-txt"><p>Choisir un EHPAD se fait souvent dans l'urgence, après une chute ou une hospitalisation. Les informations utiles sont publiques, mais dispersées sur plusieurs sites.</p>
+    <p>EHPAD Arena les réunit sur une seule page par établissement, avec un résumé lisible en quelques secondes. Le site fait partie de la famille Job Arena, Scol Arena et Eau Arena.</p></div>
+    <div class="ab-flow" aria-hidden="true">
+      <div class="ab-from"><span><b>Prix</b>CNSA</span><span><b>Qualité</b>HAS</span><span><b>Avis</b>Google</span></div>
+      <div class="ab-arrow"></div>
+      <div class="ab-to"><small>Une page par EHPAD</small><div><b>${eur(nat.med)}</b><span>par mois</span></div><div class="ab-row"><i class="lb lv-A">A</i><span>Niveau officiel</span></div><div class="ab-row"><i class="ab-star">★</i><span>Avis des familles</span></div></div>
+    </div>
+  </div>
+</div></section>
+<section class="block"><div class="wrap">
+  <h2>D'où viennent les chiffres</h2>
+  <div class="ab-src">${SRC.map((x) => `<a class="card ab-s" href="${x[5]}" target="_blank" rel="noopener"><p class="k">${x[0]}</p><b>${x[1]}</b><small>${x[2]}</small><p>${x[3]}</p><span class="ab-d">${x[4]} · data.gouv.fr ↗</span></a>`).join("")}</div>
+  <p class="src" style="margin-top:12px">Données publiques réutilisées sous Licence Ouverte. Le site est recalculé chaque semaine ; dernier calcul le ${dateFr(meta.built)}.</p>
+</div></section>
+<section class="block"><div class="wrap">
+  <h2>Comment nous calculons</h2>
+  <div class="ab-calc">
+    <div class="card pad"><p class="k">Le prix par mois</p>
+      <div class="ab-eq num"><div><b>${eur2(cs)}</b><span>hébergement par jour</span></div><i>+</i><div><b>${eur2(g56)}</b><span>dépendance par jour (GIR 5-6)</span></div><i>× 30</i><div class="r"><b>${eur(Math.round((cs + g56) * 30))}</b><span>par mois</span></div></div>
+      <p>Prix d'une chambre seule, avant les aides. Le tarif dépendance GIR 5-6 est le minimum payé par chaque résident ; les <a href="/aides/">aides</a> réduisent ensuite la facture. Nous affichons le dernier tarif déclaré : un tarif plus récent peut s'appliquer.</p>
+      <p class="src">Exemple avec les valeurs médianes en France.</p></div>
+    <div class="card pad"><p class="k">Le niveau officiel et la note sur 10</p>
+      <div class="ab-lv">${[..."ABCD"].map((l) => `<i class="lb lv-${l}">${l}</i>`).join("")}<span>Niveau attribué par la HAS, de A (le meilleur) à D. Affiché tel quel.</span></div>
+      <div class="ab-split"><div style="flex:7"><b>70 %</b><span>les 9 thèmes notés</span></div><div style="flex:3"><b>30 %</b><span>exigences essentielles</span></div></div>
+      <p>Notre note sur 10, calculée sur la même évaluation, sert à départager les EHPAD d'un même niveau.</p>
+      <p class="ab-order"><span>Classement</span><b>1. Niveau</b><b>2. Note</b><b>3. Prix</b></p>
+      <p class="src">La HAS évalue surtout l'organisation et la démarche qualité ; elle précise que ce premier cycle se prête mal aux comparaisons. Seuls les EHPAD dont l'évaluation est publiée sont classés.</p></div>
+  </div>
+  <p class="note" style="margin-top:14px">Les avis des familles sont ceux publiés sur Google. EHPAD Arena n'en recueille aucun, et ils ne comptent pas dans la note.</p>
+</div></section>
+<section class="block"><div class="wrap">
   <h2>Nos engagements</h2>
-  <ul><li>Aucune inscription, aucun cookie tant que la publicité est éteinte.</li><li>Aucun établissement ne peut payer pour être mis en avant ou pour modifier sa fiche.</li></ul>
-  <h2 id="erreur">Une erreur ?</h2>
-  <p>Écrivez à <b class="sel">${esc(contact)}</b> en précisant l'établissement. Nous comparons avec la source officielle et corrigeons sous quelques jours. Si l'erreur vient de la source (prix déclaré, évaluation), nous vous indiquons à qui vous adresser.</p>
-</div></div></section>`;
+  <ul class="ab-eng">${ENG.map((x) => `<li class="card"><span class="ab-ck">✓</span><b>${x[0]}</b><p>${x[1]}</p></li>`).join("")}</ul>
+</div></section>
+<section class="block"><div class="wrap">
+  <div class="card pad sim" id="erreur"><div><b>Une erreur sur une fiche ?</b><p>Écrivez-nous en précisant l'établissement. Nous comparons avec la source officielle et corrigeons sous quelques jours. Si l'erreur vient de la source, nous vous indiquons à qui vous adresser.</p></div><a class="btn" href="mailto:${esc(contact)}?subject=${encodeURIComponent("Erreur sur une fiche EHPAD Arena")}">${esc(contact)}</a></div>
+</div></section>`;
 }
 
 // ---------- titres et descriptions ----------

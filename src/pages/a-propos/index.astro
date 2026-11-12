@@ -1,6 +1,11 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { renderAbout } from "../../lib/core.js";
+import { load } from "../../lib/data.js";
 import { CONTACT } from "../../lib/site.js";
+const s = load();
+const med = (v) => { v = v.slice().sort((a, b) => a - b); const m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+const P = Object.values(s.ehpad).filter((e) => e.mois);
+const cs = med(P.map((e) => e.cs)), g56 = med(P.map((e) => e.g56));
 ---
-<Base title="À propos" description="Pourquoi EHPAD Arena, d'où viennent les prix et les évaluations, comment la note sur 10 est calculée." page="about"><Fragment set:html={renderAbout({ contact: CONTACT })} /></Base>
+<Base title="À propos" description="Pourquoi EHPAD Arena, d'où viennent les prix et les évaluations, comment le prix par mois et la note sur 10 sont calculés." page="about"><Fragment set:html={renderAbout({ contact: CONTACT, nat: s.nat, meta: s.meta, cs, g56 })} /></Base>
