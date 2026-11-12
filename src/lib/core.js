@@ -318,17 +318,65 @@ export function renderCompare() {
 <section class="block"><div class="wrap"><div id="cmp"><p class="tx">Chargement…</p></div></div></section>`;
 }
 
-export function renderAides() {
+export function renderAides({ heb, dep, med }) {
   const A = [
-    ["APA en établissement", "Allocation personnalisée d'autonomie", "Elle paie une partie du tarif dépendance, pour les personnes de 60 ans ou plus évaluées en GIR 1 à 4 par le médecin de l'établissement. Son montant dépend des revenus. Avec moins de 2 846,77 € de revenus par mois (seuil 2026), vous ne payez que le tarif GIR 5-6, déjà compté dans nos prix par mois ; au-delà, une partie de la différence reste à votre charge.", "Auprès de la direction de l'établissement, qui indique les démarches. Elle est versée par le département."],
-    ["Aide au logement", "APL ou ALS", "Elle réduit le prix de l'hébergement, selon vos revenus, si l'établissement est votre résidence principale. L'APL concerne les établissements conventionnés APL, l'ALS les autres ; elles ne se cumulent pas. L'APL est versée directement à l'établissement.", "Auprès de la CAF ou de la MSA."],
-    ["Aide sociale à l'hébergement", "ASH", "Elle paie la différence entre la facture de l'établissement et ce que vous pouvez payer, quand vos ressources ne suffisent pas, dans les établissements habilités à l'aide sociale. Vos enfants (obligés alimentaires) peuvent être sollicités, et les sommes versées peuvent être récupérées de votre vivant ou sur la succession.", "Auprès du conseil départemental, souvent par l'intermédiaire de la mairie (CCAS)."],
-    ["Réduction d'impôt", "25 % des frais, jusqu'à 2 500 € par an", "Les frais de dépendance et d'hébergement ouvrent droit à une réduction d'impôt de 25 %, dans la limite de 10 000 € de dépenses par an et par personne hébergée, soit 2 500 € au plus. Les aides reçues (APA, aide au logement, aide sociale) sont déduites. Elle ne profite qu'aux résidents imposables.", "Dans la déclaration de revenus."],
+    { id: "apa", name: "APA en établissement", full: "Allocation personnalisée d'autonomie", tag: "Si GIR 1 à 4",
+      who: "Personnes de 60 ans ou plus, évaluées en GIR 1 à 4 (perte d'autonomie) par le médecin de l'établissement.",
+      gain: "Elle paie le supplément de dépendance au-delà du tarif GIR 5-6. Sous 2 846,77 € de revenus par mois (seuil 2026), elle le paie en totalité.",
+      where: "Auprès de la direction de l'EHPAD, qui indique les démarches. Versée par le département.",
+      more: "Le tarif dépendance dépend du degré d'autonomie : plus il est élevé (GIR 1 et 2), plus il coûte. Chaque résident paie au minimum le tarif GIR 5-6, déjà compté dans nos prix par mois. L'APA paie la différence entre le tarif de votre GIR et ce tarif GIR 5-6. Au-dessus de 2 846,77 € de revenus par mois, une partie de cette différence reste à votre charge, d'autant plus grande que vos revenus sont élevés." },
+    { id: "logement", name: "Aide au logement", full: "APL ou ALS", tag: "Selon vos revenus",
+      who: "Tout résident dont l'EHPAD est la résidence principale, selon ses revenus.",
+      gain: "Elle réduit le prix de l'hébergement chaque mois.",
+      where: "Auprès de la CAF, ou de la MSA pour les personnes relevant du régime agricole.",
+      more: "L'APL concerne les établissements conventionnés APL ; l'ALS concerne les autres. Les deux ne se cumulent pas. L'APL est versée directement à l'établissement, qui la déduit de la facture." },
+    { id: "ash", name: "Aide sociale à l'hébergement", full: "ASH", tag: "Si vos revenus ne suffisent pas",
+      who: "Résidents dont les ressources ne suffisent pas à payer l'hébergement, dans un EHPAD habilité à l'aide sociale.",
+      gain: "Le département paie la part de l'hébergement que vous ne pouvez pas payer.",
+      where: "Auprès du conseil départemental, souvent par l'intermédiaire de la mairie (CCAS).",
+      more: "Vos revenus servent d'abord à payer l'établissement ; une petite partie reste à votre disposition. Vos enfants (obligés alimentaires) peuvent être sollicités selon leurs moyens. Les sommes versées par le département peuvent être récupérées de votre vivant (retour à meilleure fortune) ou sur la succession. Sur chaque fiche d'EHPAD Arena, nous indiquons si l'établissement est habilité." },
+    { id: "impot", name: "Réduction d'impôt", full: "Frais de dépendance et d'hébergement", tag: "Si vous êtes imposable",
+      who: "Résidents imposables qui paient eux-mêmes des frais d'EHPAD.",
+      gain: "25 % des frais payés, jusqu'à 2 500 € par an et par personne hébergée.",
+      where: "Dans la déclaration de revenus, l'année suivant les dépenses.",
+      more: "Les dépenses sont retenues dans la limite de 10 000 € par an et par personne hébergée, d'où une réduction de 2 500 € au plus. Les aides reçues (APA, aide au logement, aide sociale) sont déduites des dépenses. Une réduction d'impôt ne profite pas aux personnes non imposables." },
   ];
-  return `<section class="band"><div class="wrap"><h1>Quelles aides pour payer un EHPAD ?</h1><p class="lede">Quatre aides réduisent la facture d'une maison de retraite médicalisée. Elles peuvent se cumuler.</p></div></section>
+  const w = (heb / (heb + dep)) * 100;
+  const STEPS = [
+    ["Avant de choisir", "Si vos revenus risquent de ne pas suffire, choisissez un EHPAD habilité à l'aide sociale : c'est indiqué sur chaque fiche."],
+    ["À l'entrée", "Demandez l'APA à la direction de l'EHPAD et l'aide au logement à la CAF ou à la MSA."],
+    ["Si le reste à payer est trop lourd", "Déposez une demande d'aide sociale à l'hébergement au département, via la mairie."],
+    ["Chaque année", "Déclarez les frais payés dans votre déclaration de revenus pour la réduction d'impôt."],
+  ];
+  return `<section class="band"><div class="wrap"><h1>Quelles aides pour payer un EHPAD ?</h1><p class="lede">Quatre aides réduisent la facture d'une maison de retraite médicalisée. Elles peuvent se cumuler.</p>
+  <nav class="aid-jump" aria-label="Les aides">${A.map((a) => `<a href="#${a.id}">${a.name}</a>`).join("")}</nav></div></section>
 <section class="block"><div class="wrap">
-  <div class="cols">${A.map((a) => `<div class="card pad"><h2>${a[0]}</h2><p class="src" style="margin:-6px 0 10px">${a[1]}</p><p>${a[2]}</p><p style="margin-top:10px"><b>Où la demander.</b> ${a[3]}</p></div>`).join("")}</div>
-  <p class="note" style="margin-top:18px">Pour estimer votre reste à charge dans un EHPAD précis, après APA et aide au logement, utilisez le simulateur de l'annuaire officiel sur <a href="https://www.pour-les-personnes-agees.gouv.fr" target="_blank" rel="noopener">pour-les-personnes-agees.gouv.fr</a>. Dans 23 départements, un nouveau mode de financement est expérimenté depuis juillet 2025 : le tarif dépendance y est fondu dans un forfait global.</p>
+  <h2>Ce que couvre chaque aide</h2>
+  <div class="card pad bill">
+    <p class="k">Une facture type : environ ${eur(Math.round(med / 50) * 50)} par mois</p>
+    <div class="bill-bar" role="img" aria-label="Hébergement ${eur(heb)}, dépendance ${eur(dep)}"><i class="b-h" style="width:${w.toFixed(1)}%"></i><i class="b-d"></i></div>
+    <div class="bill-leg">
+      <div><span class="sw b-h"></span><div><b>Hébergement · ${eur(heb)}</b><p>Le logement, les repas, l'entretien, l'animation. Réduit par l'<a href="#logement">aide au logement</a> et l'<a href="#ash">aide sociale</a>.</p></div></div>
+      <div><span class="sw b-d"></span><div><b>Dépendance · ${eur(dep)}</b><p>L'aide à la toilette, aux repas, aux déplacements. Ce montant est le minimum payé par tous (tarif GIR 5-6). Au-delà, l'<a href="#apa">APA</a> paie le supplément.</p></div></div>
+      <div><span class="sw b-t"></span><div><b>Après la facture</b><p>Ce qui reste payé ouvre droit à la <a href="#impot">réduction d'impôt</a>.</p></div></div>
+    </div>
+    <p class="src">Valeurs médianes des prix déclarés à la CNSA pour une chambre seule. Les soins médicaux sont payés par l'Assurance maladie et ne figurent pas sur la facture.</p>
+  </div>
+</div></section>
+<section class="block"><div class="wrap">
+  <h2>Les 4 aides</h2>
+  <div class="aidg">${A.map((a) => `<article class="card aid" id="${a.id}">
+    <header><h3>${a.name}</h3><span class="aid-tag">${a.tag}</span></header>
+    <p class="aid-full">${a.full}</p>
+    <dl><dt>Pour qui</dt><dd>${a.who}</dd><dt>Ce qu'elle apporte</dt><dd class="aid-gain">${a.gain}</dd><dt>Où la demander</dt><dd>${a.where}</dd></dl>
+    <details><summary>En savoir plus</summary><p>${a.more}</p></details>
+  </article>`).join("")}</div>
+</div></section>
+<section class="block"><div class="wrap">
+  <h2>Dans quel ordre faire les démarches</h2>
+  <ol class="asteps">${STEPS.map((x, i) => `<li><span class="n">${i + 1}</span><div><b>${x[0]}</b><p>${x[1]}</p></div></li>`).join("")}</ol>
+  <div class="card pad sim"><div><b>Combien vous restera-t-il à payer ?</b><p>Le simulateur officiel calcule votre reste à charge dans un EHPAD précis, après APA et aide au logement.</p></div><a class="btn" href="https://www.pour-les-personnes-agees.gouv.fr" target="_blank" rel="noopener">Ouvrir le simulateur</a></div>
+  <p class="note" style="margin-top:14px">Dans 23 départements, un nouveau mode de financement est expérimenté depuis juillet 2025 : le tarif dépendance y est fondu dans un forfait global.</p>
   <p class="src" style="margin-top:12px">Sources : portail national pour-les-personnes-agees.gouv.fr (APA en établissement, mis à jour le 9 juin 2026 ; aides au logement et ASH, mis à jour le 20 novembre 2025) et economie.gouv.fr (réduction d'impôt).</p>
 </div></section>`;
 }

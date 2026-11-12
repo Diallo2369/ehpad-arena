@@ -1,5 +1,11 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { renderAides } from "../../lib/core.js";
+import { load } from "../../lib/data.js";
+const s = load();
+// facture type : médianes nationales de l'hébergement et du tarif dépendance GIR 5-6, sur 30 jours
+const med = (v) => { v = v.slice().sort((a, b) => a - b); const m = v.length >> 1; return Math.round(v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2); };
+const P = Object.values(s.ehpad).filter((e) => e.mois);
+const heb = med(P.map((e) => e.cs * 30)), dep = med(P.map((e) => e.g56 * 30));
 ---
-<Base title="Quelles aides pour payer un EHPAD ?" description="APA, aide au logement, aide sociale à l'hébergement, réduction d'impôt : les aides qui réduisent le prix d'un EHPAD et où les demander." page="aides"><Fragment set:html={renderAides()} /></Base>
+<Base title="Quelles aides pour payer un EHPAD ?" description="APA, aide au logement, aide sociale à l'hébergement, réduction d'impôt : ce que couvre chaque aide, qui y a droit, où la demander et dans quel ordre." page="aides"><Fragment set:html={renderAides({ heb, dep, med: heb + dep })} /></Base>
