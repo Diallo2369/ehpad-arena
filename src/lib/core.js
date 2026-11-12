@@ -139,7 +139,7 @@ function tiles3(items) {
 }
 
 // ---------- pages ----------
-export function renderHome({ nat, cities, deps }) {
+export function renderHome({ nat, cities, regions }) {
   const p = (v) => (((v - 1500) / 2500) * 100).toFixed(1);
   return `<section class="band hero"><div class="wrap">
   <h1>Combien coûte un EHPAD près de chez vous ?</h1>
@@ -173,9 +173,16 @@ export function renderHome({ nat, cities, deps }) {
 </div></section>
 <section class="block"><div class="wrap">
   <h2>Les grandes villes</h2>
-  <ul class="links">${cities.map((c) => `<li><a href="${communeUrl(c)}">EHPAD ${inCity(c).replace(/^à /, "à ")}</a><span>${c.n} ${plural(c.n, "établissement")}</span></li>`).join("")}</ul>
-  <h2 style="margin-top:30px">Par département</h2>
-  <ul class="links deps">${deps.map((d) => `<li><a href="${depUrl(d)}">${esc(d.nom)}</a><span>${d.code}</span></li>`).join("")}</ul>
+  <p class="sect-sub">Prix médian d'une chambre seule, par mois, comparé à la France (${eur(nat.med)}).</p>
+  <ul class="cities">${cities.map((c) => {
+    const d = c.med ? Math.round(((c.med - nat.med) / nat.med) * 100) : null;
+    const tag = d === null ? "" : `<em class="vs ${d > 2 ? "up" : d < -2 ? "dn" : "eq"}">${d > 2 ? "+" + d + " %" : d < -2 ? "−" + -d + " %" : "≈ France"}</em>`;
+    return `<li><a href="${communeUrl(c)}"><span class="ct"><b>${esc(c.nom)}</b><small>${c.dep}</small></span><span class="cp num">${c.med ? eur(c.med) : "–"}${tag}</span><span class="cn">${c.n} EHPAD</span></a></li>`;
+  }).join("")}</ul>
+  <div class="dep-h"><h2>Par département</h2><label class="dep-f">${ICON.search}<input type="search" placeholder="Nom ou numéro" aria-label="Filtrer les départements" data-depfilter autocomplete="off"></label></div>
+  <p class="sect-sub">Prix médian par mois. Cliquez pour voir les EHPAD du département, commune par commune.</p>
+  <div class="regions">${regions.map(([r, ds]) => `<details class="reg" open><summary>${esc(r)}<span>${ds.length}</span></summary><ul>${ds.map((d) => `<li data-q="${esc(d.code + " " + d.nom)}"><a href="${depUrl(d)}"><i>${d.code}</i><span>${esc(d.nom)}</span><em class="num">${d.med ? eur(d.med) : "–"}</em></a></li>`).join("")}</ul></details>`).join("")}</div>
+  <p class="dep-none" hidden>Aucun département ne correspond.</p>
 </div></section>`;
 }
 

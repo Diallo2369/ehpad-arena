@@ -191,3 +191,30 @@ if (nearBtn) {
     }, () => { out.innerHTML = '<p class="none">Position non disponible. Saisissez votre commune dans le champ ci-dessus.</p>'; }, { timeout: 10000, maximumAge: 600000 });
   });
 }
+
+// accueil : départements par région, repliés sur mobile, filtre par nom ou numéro
+{
+  const f = document.querySelector("[data-depfilter]");
+  if (f) {
+    const regs = [...document.querySelectorAll(".reg")];
+    const none = document.querySelector(".dep-none");
+    if (matchMedia("(max-width:720px)").matches) regs.forEach((r) => r.removeAttribute("open"));
+    const initial = regs.map((r) => r.open);
+    f.addEventListener("input", () => {
+      const q = norm(f.value);
+      let any = false;
+      regs.forEach((r, i) => {
+        let hit = 0;
+        r.querySelectorAll("li").forEach((li) => {
+          const ok = !q || norm(li.dataset.q).split(" ").some((w, k, a) => a.slice(k).join(" ").startsWith(q)) || li.dataset.q.startsWith(f.value.trim());
+          li.hidden = !ok;
+          if (ok) hit++;
+        });
+        r.hidden = !hit;
+        r.open = q ? hit > 0 : initial[i];
+        if (hit) any = true;
+      });
+      none.hidden = any;
+    });
+  }
+}

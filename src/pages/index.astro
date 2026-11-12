@@ -2,9 +2,17 @@
 import Base from "../layouts/Base.astro";
 import { renderHome, seo } from "../lib/core.js";
 import { load } from "../lib/data.js";
+import REG from "@etalab/decoupage-administratif/data/regions.json";
+import DEP from "@etalab/decoupage-administratif/data/departements.json";
 const s = load();
 const cities = Object.values(s.communes).filter((c) => !c.parent && c.n >= 5).sort((a, b) => b.pop - a.pop).slice(0, 16);
 const deps = Object.values(s.deps).sort((a, b) => a.code.localeCompare(b.code));
+// départements regroupés par région ; DROM et collectivités d'outre-mer ensemble
+const regName = Object.fromEntries(REG.map((r) => [r.code, r.nom]));
+const depReg = Object.fromEntries(DEP.map((d) => [d.code, d.zone === "metro" ? regName[d.region] : "Outre-mer"]));
+const groups = {};
+for (const d of deps) (groups[depReg[d.code] || "Outre-mer"] ||= []).push(d);
+const regions = Object.entries(groups).sort((a, b) => (a[0] === "Outre-mer") - (b[0] === "Outre-mer") || a[0].localeCompare(b[0], "fr"));
 const m = seo("home");
 ---
-<Base title={m.title} description={m.desc} page="home"><Fragment set:html={renderHome({ nat: s.nat, cities, deps })} /></Base>
+<Base title={m.title} description={m.desc} page="home"><Fragment set:html={renderHome({ nat: s.nat, cities, regions })} /></Base>
