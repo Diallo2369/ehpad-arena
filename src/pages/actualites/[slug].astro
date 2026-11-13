@@ -1,0 +1,35 @@
+---
+// Une page par analyse (recalculée à chaque construction) et par actualité (src/lib/news.js).
+import Base from "../../layouts/Base.astro";
+import { renderAnalysis, renderNews, analyses, articleLd, FIRST } from "../../lib/actus.js";
+import { load } from "../../lib/data.js";
+import { NEWS } from "../../lib/news.js";
+import { SITE_URL } from "../../lib/site.js";
+
+export function getStaticPaths() {
+  const s = load();
+  const ana = analyses({ nat: s.nat, deps: s.deps });
+  const slugs = [...ana.map((a) => a.slug), ...NEWS.map((n) => n.slug)];
+  if (new Set(slugs).size !== slugs.length) throw new Error("Actualités : deux pages ont la même adresse");
+  return [...ana.map((a) => ({ params: { slug: a.slug }, props: { kind: "ana" } })), ...NEWS.map((n) => ({ params: { slug: n.slug }, props: { kind: "news" } }))];
+}
+const { kind } = Astro.props;
+const { slug } = Astro.params;
+const s = load();
+const ana = analyses({ nat: s.nat, deps: s.deps });
+const news = NEWS.slice().sort((a, b) => b.date.localeCompare(a.date));
+const url = SITE_URL ? SITE_URL + Astro.url.pathname : "";
+let html, title, desc, jsonld = null;
+if (kind === "ana") {
+  const a = ana.find((x) => x.slug === slug);
+  html = renderAnalysis({ a, ana, meta: s.meta });
+  title = a.title; desc = a.desc;
+  if (SITE_URL) jsonld = articleLd({ url, title, desc, published: FIRST, modified: s.meta.built, site: SITE_URL });
+} else {
+  const n = news.find((x) => x.slug === slug);
+  html = renderNews({ n, news, ana });
+  title = n.title; desc = (n.text.length > 155 ? n.text.slice(0, n.text.lastIndexOf(" ", 152)) + "…" : n.text);
+  if (SITE_URL) jsonld = articleLd({ url, title, desc, published: n.date, modified: n.date, kind: "NewsArticle", site: SITE_URL });
+}
+---
+<Base title={title} description={desc} page="actus" jsonld={jsonld}><Fragment set:html={html} /></Base>

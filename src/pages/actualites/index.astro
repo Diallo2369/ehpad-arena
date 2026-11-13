@@ -1,8 +1,10 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { renderActus } from "../../lib/core.js";
+import { renderActusHub, analyses } from "../../lib/actus.js";
 import { load } from "../../lib/data.js";
 import { NEWS } from "../../lib/news.js";
 const s = load();
+const ana = analyses({ nat: s.nat, deps: s.deps });
+const news = NEWS.slice().sort((a, b) => b.date.localeCompare(a.date));
 ---
-<Base title="Actualités et chiffres des EHPAD" description="Prix des EHPAD par département, écart selon l'aide sociale, niveaux de qualité : les chiffres calculés sur les données publiques, et l'actualité officielle." page="actus"><Fragment set:html={renderActus({ nat: s.nat, news: NEWS, meta: s.meta })} /></Base>
+<Base title="Actualités et chiffres des EHPAD" description="Prix des EHPAD en France et par département, aide sociale, prix et qualité : nos analyses sur les données publiques, et l'actualité officielle du secteur." page="actus"><Fragment set:html={renderActusHub({ ana, news, meta: s.meta })} /></Base>

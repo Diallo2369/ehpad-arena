@@ -644,3 +644,70 @@ a.hb:hover span{text-decoration:underline}
   .ab-eq i:last-of-type{grid-column:1/3;justify-self:end}
   .ab-eq b{font-size:1.15rem}
 }
+
+/* actualités : aperçus et pages dédiées */
+.anas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.anas>*{grid-column:span 2}
+.anas.n5>:nth-child(-n+2),.anas.n4>*,.anas.n2>*{grid-column:span 3}
+.ana{display:flex;flex-direction:column;gap:6px;padding:18px 20px;color:var(--fg);text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}
+.ana:hover{border-color:var(--link);transform:translateY(-2px);box-shadow:var(--shadow)}
+.ana .k{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ana h3{font-size:1.15rem;line-height:1.25}
+.ana-f{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:6px}
+.ana-f b{font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1}
+.ana-f span{color:var(--muted);font-size:.88rem}
+.ana .more{margin-top:auto;padding-top:12px;color:var(--link)}
+.ana:hover .more{text-decoration:underline}
+.mh{display:flex;align-items:flex-end;gap:3px;height:54px;margin-top:10px}
+.mh i{flex:1;background:color-mix(in srgb,var(--link) 35%,transparent);border-radius:3px 3px 0 0}
+.mh i.hi{background:var(--link)}
+.mb{display:grid;gap:5px;margin-top:12px}
+.mb i{display:block;height:11px;border-radius:6px;background:var(--accent)}
+.mb i.lo{background:var(--link)}
+.mq{display:flex;align-items:flex-end;gap:8px;height:54px;margin-top:10px}
+.mq i{flex:1;border-radius:4px 4px 0 0;min-height:6px}
+.mq .q-A{background:var(--a)}.mq .q-B{background:var(--b)}.mq .q-C{background:var(--c)}.mq .q-D{background:var(--d)}
+.ml{display:flex;gap:3px;height:18px;border-radius:6px;overflow:hidden;margin-top:14px}
+.ml i{display:block;min-width:6px}
+.ml .lv-A{background:var(--a)}.ml .lv-B{background:var(--b)}.ml .lv-C{background:var(--c)}.ml .lv-D{background:var(--d)}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:8px}
+.mt{margin-top:34px}
+.art-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:14px}
+.art-cols h2{font-size:1.25rem;margin-bottom:10px}
+.keys ul{margin:0;padding-left:1.1rem;display:grid;gap:8px}
+.keys li::marker{color:var(--accent)}
+.go{margin-top:28px}
+.go h2{font-size:1.25rem}
+.go-l{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.go-l a{border:1.5px solid var(--line);border-radius:999px;padding:9px 14px;font-weight:600;text-decoration:none;color:var(--fg);background:var(--surface);min-height:42px;display:inline-flex;align-items:center}
+.go-l a:hover{border-color:var(--link);color:var(--link)}
+.dtab-w{overflow-x:auto;margin-top:12px}
+.dtab{width:100%;min-width:0;border-collapse:collapse;font-size:.95rem}
+.dtab th,.dtab td{padding:9px 14px;border-bottom:0;vertical-align:middle;border-top:1px solid var(--line);text-align:right;white-space:nowrap}
+.dtab thead th{border-top:0;color:var(--muted);font-weight:600;font-size:.85rem}
+.dtab th[scope=row],.dtab thead th:nth-child(-n+2){text-align:left}
+.dtab th[scope=row]{font-weight:600}
+.dtab th[scope=row] small{display:inline;color:var(--muted);font-weight:400;margin-left:4px}
+.dtab td:first-child{color:var(--muted);text-align:left}
+.dtab td.up{color:var(--accent-ink-strong,var(--fg))}
+.dtab td.up::before{content:"▲ ";color:var(--accent);font-size:.75em}
+.dtab td.dn::before{content:"▼ ";color:var(--a);font-size:.75em}
+.art>*{max-width:760px}
+.art>p{font-size:1.08rem;margin-top:14px}
+.art .art-lead{font-size:1.25rem;line-height:1.5;margin-top:0}
+.why.big{margin-top:22px;padding:16px 20px}
+.why.big b{display:block;font-family:var(--display);font-size:1.1rem;margin-bottom:4px}
+.nsrc{color:var(--muted);font-size:.88rem;margin-top:8px}
+.news .more{display:inline-block;margin-top:10px;color:var(--link)}
+@media (max-width:900px){.anas{grid-template-columns:repeat(2,minmax(0,1fr))}.anas>*,.anas.n5>:nth-child(-n+2),.anas.n4>*,.anas.n2>*{grid-column:auto}.anas.n5>:first-child,.anas.n3>:first-child{grid-column:1/-1}}
+@media (max-width:720px){
+  .anas,.art-cols{grid-template-columns:minmax(0,1fr)}
+  .anas>*{grid-column:auto!important}
+  .dtab th,.dtab td{padding:8px 8px;font-size:.88rem}
+  .dtab td:nth-child(5),.dtab thead th:nth-child(5){display:none}
+  .dtab th[scope=row],.dtab thead th{white-space:normal}
+  .dtab td{white-space:nowrap}
+  .dtab th[scope=row] small{display:none}
+  .dtab td:first-child{padding-left:12px}
+  .art .art-lead{font-size:1.12rem}
+}

@@ -382,7 +382,7 @@ export function renderAides({ heb, dep, med }) {
 }
 
 // Prix médian selon le niveau officiel : en tout, puis à statut égal.
-function qualityPrice(qp) {
+export function qualityPrice(qp) {
   const L = Object.keys(qp.all), top = Math.max(...L.map((l) => qp.all[l][1]));
   const gap = qp.all.A && qp.all.B ? qp.all.A[1] - qp.all.B[1] : 0;
   const ST = [["Public", "Public"], ["Privé à but non lucratif", "Privé non lucratif"], ["Privé commercial", "Privé commercial"]];
@@ -399,46 +399,6 @@ function qualityPrice(qp) {
       ${maxIn < gap ? `<p class="qp-why"><b>Mais à statut égal, l'écart entre A et B tombe à ${eur(Math.max(0, maxIn))} au plus.</b> Les EHPAD privés commerciaux sont à la fois les plus chers et les mieux évalués : ils font ${shareA} % des EHPAD de niveau A, contre ${shareC} % de ceux de niveau C.${pubSpan < 100 ? ` Dans le public, le prix est presque le même quel que soit le niveau.` : ""}</p>` : ""}
       <p class="qcap">Prix médian par mois en euros, selon le statut et le niveau officiel</p><div class="qtab-w"><table class="qtab num"><thead><tr><th scope="col">Statut</th>${levelsHead}</tr></thead><tbody>${ST.map(([k, lab]) => `<tr><th scope="row">${lab}</th>${["A", "B", "C", "D"].map((l) => `<td>${qp.st[k]?.[l] ? int(qp.st[k][l][1]) : "–"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
       <p class="src">${int(qp.n)} EHPAD ayant à la fois un prix publié et un niveau officiel. « – » : moins de 20 établissements, pas de médiane affichée. Un prix plus élevé ne garantit donc pas une meilleure qualité : comparez les EHPAD d'un même statut.</p></div>`;
-}
-
-export function renderActus({ nat, news, meta }) {
-  const H = nat.hist, maxH = Math.max(...H.map((d) => d[1]));
-  const lab = (x, i) => (i === 0 ? "< " + int(x + 250) : i === H.length - 1 ? int(x) + " +" : int(x));
-  const top = Math.max(...nat.cher.map((d) => d[1]));
-  const hb = (a, c) => a.map((d) => `<a class="hb ${c}" href="/departement/${d[2]}/"><span>${esc(d[0])}</span><u style="width:${((d[1] / top) * 100).toFixed(1)}%"></u><b>${eur(d[1])}</b></a>`).join("");
-  const [na, ma, nn, mn] = nat.ash;
-  const peak = H.map((d, i) => [d[1], i]).sort((a, b) => b[0] - a[0]).slice(0, 2).map((x) => x[1]);
-  const share = Math.round(((H[peak[0]][1] + H[peak[1]][1]) / nat.np) * 100);
-  const lastNews = news.map((a) => a.date).sort().at(-1);
-  return `<section class="band"><div class="wrap"><h1>Actualités et chiffres des EHPAD</h1><p class="lede">Les chiffres que nous calculons à partir des données publiques, et l'actualité officielle du secteur.</p>
-  <p class="upd">Chiffres recalculés le ${dateFr(meta.built)} · Dernière actualité le ${dateFr(lastNews)}</p></div></section>
-<section class="block"><div class="wrap">
-  <h2>En chiffres</h2>
-  <div class="info">
-    <div class="card pad wide"><p class="k">Les prix en France</p><h3>${share} % des EHPAD coûtent entre ${int(H[Math.min(...peak)][0])} € et ${int(H[Math.max(...peak)][0] + 250)} € par mois</h3>
-      <div class="hist" role="img" aria-label="Répartition de ${int(nat.np)} EHPAD par tranche de prix mensuel de 250 euros">${H.map((d, i) => `<div class="hc${peak.includes(i) ? " hi" : ""}" style="--i:${i};--h:${(d[1] / maxH).toFixed(3)}"><b>${int(d[1])}</b><i></i><span>${lab(d[0], i)} €</span></div>`).join("")}</div>
-      <p class="src">Nombre d'EHPAD par tranche de 250 €. Prix par mois d'une chambre seule, avant les aides.</p></div>
-    <div class="card pad"><p class="k">Selon le département</p><h3>Du simple au double entre ${esc(nat.moins[0][0])} et ${esc(nat.cher[0][0])}</h3>
-      <p class="hbt">Les 5 départements les plus chers</p><div class="hbs num">${hb(nat.cher, "")}</div>
-      <p class="hbt">Les 5 moins chers</p><div class="hbs num">${hb(nat.moins, "lo")}</div>
-      <p class="src">Prix médian par mois. Départements d'au moins 10 EHPAD. Cliquez sur un département pour voir ses EHPAD.</p></div>
-    <div class="stack">
-      <div class="card pad"><p class="k">Aide sociale</p><h3>${cnt(mn - ma, "eur")} d'écart par mois selon l'habilitation</h3>
-        <div class="duo num"><div><div class="v">${cnt(ma, "eur")}</div><span>prix médian des ${int(na)} EHPAD habilités à l'aide sociale</span><u style="width:${((ma / mn) * 100).toFixed(1)}%"></u></div>
-        <div class="n"><div class="v">${cnt(mn, "eur")}</div><span>prix médian des ${int(nn)} EHPAD non habilités</span><u style="width:100%"></u></div></div>
-        <p class="src">Au total, ${int(nat.nash)} EHPAD sur ${int(nat.n)} sont habilités à l'aide sociale.</p></div>
-      <div class="card pad"><p class="k">Qualité</p><h3>${int(nat.nh)} EHPAD évalués par la HAS, sur ${int(nat.n)}</h3>
-        <div class="lvl">${[..."ABCD"].map((l) => `<div class="lv-${l}" style="flex:${nat.levels[l]}"><b>${l}</b><span>${int(nat.levels[l])}</span></div>`).join("")}</div>
-        <p class="src">Nombre d'EHPAD par niveau officiel, de A (le meilleur) à D. Les autres n'ont pas encore de résultat publié.</p></div>
-    </div>
-    ${nat.qp ? qualityPrice(nat.qp) : ""}
-  </div>
-  <p class="src">Calculs EHPAD Arena d'après les données publiques : <a href="https://www.data.gouv.fr/fr/datasets/prix-hebergement-et-tarifs-dependance-des-ehpad-donnees-brutes/" target="_blank" rel="noopener">prix déclarés à la CNSA</a>, <a href="https://www.data.gouv.fr/fr/datasets/resultats-devaluation-des-etablissements-et-services-sociaux-et-medico-sociaux-essms/" target="_blank" rel="noopener">évaluations de la HAS</a> et <a href="https://www.data.gouv.fr/fr/datasets/finess-extraction-du-fichier-des-etablissements/" target="_blank" rel="noopener">annuaire FINESS</a>. <a href="/a-propos/">Notre méthode</a>.</p>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>Actualités</h2>
-  <div class="news">${news.map((a) => `<article class="card"><time datetime="${a.date}">${dateFr(a.date)}</time><h3><a class="nt" href="${a.url}" target="_blank" rel="noopener">${esc(a.title)}</a></h3><p>${esc(a.text)}</p>${a.why ? `<p class="why"><b>Ce que ça change pour vous.</b> ${esc(a.why)}</p>` : ""}<a class="srcb" href="${a.url}" target="_blank" rel="noopener"><span>Lire la source</span><b>${esc(a.source)}</b><small>${esc(new URL(a.url).hostname.replace(/^www\./, ""))} ↗</small></a></article>`).join("")}</div>
-</div></section>`;
 }
 
 export function renderAbout({ contact, nat, meta, cs, g56 }) {
