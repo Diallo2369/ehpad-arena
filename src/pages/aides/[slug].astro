@@ -1,7 +1,7 @@
 ---
 // Une page par aide (src/lib/aides.js).
 import Base from "../../layouts/Base.astro";
-import { aides, renderAide, aideLd } from "../../lib/aides.js";
+import { aides, renderAide, aideLd, AIDANTS } from "../../lib/aides.js";
 import { load } from "../../lib/data.js";
 import { SITE_URL } from "../../lib/site.js";
 
@@ -10,7 +10,7 @@ export function getStaticPaths() {
   const v = Object.values(s.ehpad).filter((e) => e.mois).map((e) => e.g56 * 30).sort((a, b) => a - b);
   const m = v.length >> 1, dep = Math.round(v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2);
   const A = aides({ nat: s.nat, dep });
-  return A.map((a) => ({ params: { slug: a.slug }, props: { a, A } }));
+  return [...A, AIDANTS].map((a) => ({ params: { slug: a.slug }, props: { a, A } }));
 }
 const { a, A } = Astro.props;
 const url = SITE_URL ? SITE_URL + Astro.url.pathname : "";

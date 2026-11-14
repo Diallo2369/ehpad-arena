@@ -7,6 +7,42 @@ export const CHECKED = "2026-11-14";
 const SEUIL_APA = "2 846,77 €"; // revenus mensuels, valeur 2026
 const P = "https://www.pour-les-personnes-agees.gouv.fr/vivre-dans-un-ehpad/aides-financieres-en-ehpad/";
 const SIM = "https://www.pour-les-personnes-agees.gouv.fr";
+const AJPA = "66,64 €"; // allocation journalière du proche aidant, montant par jour au 1er janvier 2026
+const PA = "https://www.pour-les-personnes-agees.gouv.fr/solutions-pour-les-aidants/";
+
+// Guide pour les proches aidants (page /aides/proches-aidants/), même mise en page qu'une aide.
+export const AIDANTS = {
+  id: "aidants", slug: "proches-aidants", name: "Proches aidants", full: "Guide", tag: "Pour la famille et les proches",
+  title: "Proches aidants : vos droits quand un parent vit en EHPAD",
+  desc: `Congé de proche aidant, allocation journalière (AJPA, ${AJPA} par jour), obligation alimentaire, déduction fiscale, plateformes de répit : ce qui existe pour les proches d'un résident d'EHPAD.`,
+  lede: "Congé indemnisé, déduction d'impôt, soutien près de chez vous : ce qui existe pour celles et ceux qui accompagnent un proche âgé.",
+  short: "Congé indemnisé, déduction d'impôt, lieux de soutien : vos droits quand vous accompagnez un proche.",
+  brief: [["Le congé", "3 mois, jusqu'à 1 an sur la carrière"], ["L'indemnité", `${AJPA} par jour, 66 jours par proche`], ["Si vous payez l'EHPAD", "Somme déductible de vos revenus"], ["Le soutien", "220 plateformes de répit en France"]],
+  sections: [
+    ["Qui est proche aidant", `<p>La loi reconnaît comme proche aidant d'une personne âgée :</p><ul><li>son conjoint, son partenaire de PACS ou son concubin ;</li><li>un parent ou un allié : enfant, frère, sœur, gendre, belle-fille… ;</li><li>une personne qui vit avec elle ou entretient avec elle des liens étroits et stables.</li></ul><p>Il faut l'aider de manière régulière et fréquente, à titre non professionnel, dans les actes de la vie quotidienne.</p>`],
+    ["Prendre un congé", `<p>Le congé de proche aidant permet de suspendre ou de réduire son activité professionnelle pour accompagner un proche. <b>Il reste possible quand ce proche vit en établissement.</b></p>
+      <ul><li><b>Pour qui :</b> salariés, agents publics, indépendants et demandeurs d'emploi indemnisés.</li><li><b>Durée :</b> 3 mois au plus, renouvelable, dans la limite d'un an sur toute la carrière.</li><li><b>Souplesse :</b> il peut être fractionné, ou transformé en temps partiel avec l'accord de l'employeur.</li><li><b>Emploi :</b> le maintien dans l'emploi est garanti.</li></ul>
+      <p>Le proche aidé doit bénéficier de l'APA (GIR 1 à 4) ou avoir un taux d'incapacité d'au moins 80 %. Les salariés font la demande à leur employeur par lettre recommandée.</p>`],
+    ["Être indemnisé", `<p>Le congé est indemnisé par l'allocation journalière du proche aidant (AJPA), versée par la CAF ou la MSA.</p>
+      <div class="callout"><b>${AJPA} par jour (montant au 1er janvier 2026)</b><p>Elle peut être versée par demi-journées, dans la limite de 66 jours par proche accompagné, et de 4 proches (264 jours) sur toute la carrière.</p></div>
+      <p>Un retraité sans activité professionnelle n'y a pas droit. La demande se fait sur le site de la CAF ou de la MSA.</p>`],
+    ["Si vous participez aux frais", `<p>L'obligation alimentaire est le devoir d'aider un membre de sa famille dans le besoin. Elle existe entre parents et enfants, entre grands-parents et petits-enfants, et entre gendres ou belles-filles et beaux-parents. Entre époux, on parle de devoir de secours.</p>
+      <p>Elle peut conduire à payer une partie des frais d'hébergement d'un proche en EHPAD, notamment lors d'une demande d'<a href="/aides/aide-sociale-hebergement-ash/">aide sociale à l'hébergement</a>. La participation dépend de vos ressources.</p>
+      <ul><li><b>Déduction d'impôt.</b> Ce que vous versez pour l'hébergement de votre parent, dans le cadre de l'obligation alimentaire, est déductible de vos revenus au titre des pensions alimentaires.</li><li><b>Dispenses.</b> Les petits-enfants ne sont pas sollicités pour une demande d'aide sociale à l'hébergement. Les enfants retirés de leur famille par un juge pendant au moins 36 mois avant leurs 18 ans sont dispensés.</li></ul>`],
+    ["Trouver du soutien", `<p>Il existe 220 plateformes d'accompagnement et de répit en France. Elles s'adressent aux proches d'une personne âgée en perte d'autonomie.</p>
+      <ul><li>Information, écoute et conseils, gratuitement.</li><li>Groupes d'échanges entre aidants et formations.</li><li>Aide dans les démarches et recherche de solutions de répit.</li></ul>
+      <p>Une participation peut être demandée pour certaines activités. Pour trouver la plus proche, consultez l'<a href="https://www.pour-les-personnes-agees.gouv.fr" target="_blank" rel="noopener">annuaire des points d'information locaux</a> du portail national.</p>`],
+    ["À savoir", `<ul><li><b>Retraite.</b> L'assurance vieillesse des aidants permet, sous conditions, de valider des trimestres quand on réduit ou cesse son activité pour aider un proche.</li><li><b>Don de jours.</b> Des collègues peuvent vous donner des jours de repos, pour que vous restiez payé pendant que vous accompagnez votre proche.</li><li><b>Caisses de retraite et mutuelles.</b> Certaines proposent des services ou des aides aux proches aidants : posez-leur la question.</li></ul>`],
+  ],
+  faq: [
+    ["Peut-on prendre un congé de proche aidant si le proche vit en EHPAD ?", "Oui. Le proche aidé peut vivre à domicile ou en établissement. Il doit bénéficier de l'APA (GIR 1 à 4) ou avoir un taux d'incapacité d'au moins 80 %."],
+    ["Un retraité peut-il toucher l'allocation journalière du proche aidant ?", "Non, s'il n'exerce aucune activité professionnelle. S'il travaille en complément de sa retraite, il doit cesser ou réduire cette activité pour en bénéficier."],
+    ["Les enfants doivent-ils payer l'EHPAD de leurs parents ?", "Ils peuvent être mis à contribution au titre de l'obligation alimentaire, selon leurs ressources, quand le parent ne peut pas payer seul. Les sommes versées sont déductibles de leurs revenus au titre des pensions alimentaires."],
+  ],
+  src: ["Aidant familial, proche aidant : quelles définitions et quelles aides", PA + "trouver-du-soutien/aidant-familial-proche-aidant-quelles-definitions-et-quelles-aides"],
+  src2: ["Le congé de proche aidant", PA + "travailler-et-aider-un-proche/le-conge-de-proche-aidant"],
+  links: [["Quelles aides pour payer un EHPAD ?", "/aides/"]],
+};
 
 export function aides({ nat, dep }) {
   const [na, ma] = nat.ash;
@@ -129,6 +165,10 @@ export function renderAidesHub({ A, heb, dep, med }) {
   <ul class="rows">${A.map((a) => `<li id="${a.id}"><a href="/aides/${a.slug}/"><span class="rw-t"><b>${a.name}</b><small>${a.full}</small></span><span class="rw-m"><em>${a.tag}</em>${a.short}</span><span class="rw-go">Tout savoir <i>→</i></span></a></li>`).join("")}</ul>
 </div></section>
 <section class="block"><div class="wrap">
+  <h2>Vous accompagnez un proche ?</h2>
+  <ul class="rows"><li id="aidants"><a href="/aides/${AIDANTS.slug}/"><span class="rw-t"><b>${AIDANTS.name}</b><small>Vos droits et vos soutiens</small></span><span class="rw-m"><em>${AIDANTS.tag}</em>${AIDANTS.short}</span><span class="rw-go">Lire le guide <i>→</i></span></a></li></ul>
+</div></section>
+<section class="block"><div class="wrap">
   <h2>Ce que couvre chaque aide</h2>
   <div class="card pad bill">
     <p class="k">Une facture type : environ ${eur(Math.round(med / 50) * 50)} par mois</p>
@@ -168,9 +208,9 @@ export function renderAide({ a, A }) {
   </article>
 </div></section>
 <section class="block"><div class="wrap">
-  <h2>Les autres aides</h2>
+  <h2>${a.id === "aidants" ? "Les aides pour payer un EHPAD" : "Les autres aides"}</h2>
   <ul class="rows">${others.map((o) => `<li><a href="/aides/${o.slug}/"><span class="rw-t"><b>${o.name}</b><small>${o.full}</small></span><span class="rw-m"><em>${o.tag}</em>${o.short}</span><span class="rw-go">Tout savoir <i>→</i></span></a></li>`).join("")}</ul>
-  <div class="go"><div class="go-l">${a.links.map((l) => `<a href="${l[1]}">${esc(l[0])} →</a>`).join("")}<a href="/">Trouver un EHPAD près de chez vous →</a></div></div>
+  <div class="go"><div class="go-l">${a.links.map((l) => `<a href="${l[1]}">${esc(l[0])} →</a>`).join("")}${a.id === "aidants" ? "" : `<a href="/aides/${AIDANTS.slug}/">Le guide des proches aidants →</a>`}<a href="/">Trouver un EHPAD près de chez vous →</a></div></div>
 </div></section>`;
 }
 
