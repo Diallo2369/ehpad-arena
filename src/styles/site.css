@@ -1,33 +1,33 @@
 
-/* Identité (novembre 2026) : papier clair, encre, bleu pétrole et miel ; titres en Source Serif, texte en Source Sans.
+/* Identité (novembre 2026) : papier clair, vert sapin, corail et miel ; titres épais en Bricolage Grotesque, texte en Source Sans.
    Bandeaux sable pour la question et la réponse, cartes blanches dessous. Le prix mensuel est toujours le plus gros élément ; la réglette de prix est le motif récurrent. */
 :root{
-  --bg:#fbf9f5; --surface:#ffffff; --surface-2:#f2eee6; --line:#dfd8ca;
-  --fg:#1b2327; --muted:#586266;
-  --band:#efe9dc; --band-2:#ffffff; --on-band:#1b2327; --on-band-muted:#565f62;
-  --accent:#f0b23e; --accent-ink:#2b1c00; --link:#0d5661; --on-link:#ffffff; --bar:#a9c3c7;
-  --a:#17794a; --b:#5c9a2a; --c:#b9770a; --d:#b3312c; --na:#7a8285; --on-grade:#ffffff;
+  --bg:#fbfaf6; --surface:#ffffff; --surface-2:#edf3ef; --line:#d5dfd9;
+  --fg:#14231f; --muted:#52625c;
+  --band:#dcebe4; --band-2:#ffffff; --on-band:#14231f; --on-band-muted:#485a53;
+  --accent:#ff9166; --accent-ink:#35100a; --sun:#f0b23e; --link:#14614f; --on-link:#ffffff; --bar:#a5c7ba; --top:#123f35; --top-2:#1c5a4c;
+  --a:#17794a; --b:#5c9a2a; --c:#b9770a; --d:#b3312c; --na:#7a8580; --on-grade:#ffffff;
   --ga:#17794a; --gb:#5c9a2a; --gc:#b9770a; --gd:#b3312c;
-  --warn-bg:#fbf0d4; --warn-fg:#5f4200;
-  --display:"Source Serif 4 Variable","Source Serif 4",Georgia,"Times New Roman",serif;
+  --warn-bg:#fdf0e2; --warn-fg:#5c3413;
+  --display:"Bricolage Grotesque Variable","Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
   --text:"Source Sans 3 Variable","Source Sans 3","Segoe UI",system-ui,sans-serif;
-  --r:10px; --shadow:0 1px 2px rgba(27,35,39,.05);
+  --r:14px; --shadow:0 1px 2px rgba(20,35,31,.05);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#141a1c; --surface:#1c2427; --surface-2:#263135; --line:#36444a;
-  --fg:#eef0ec; --muted:#a8b2b3;
-  --band:#192124; --band-2:#263135; --on-band:#eef0ec; --on-band-muted:#a8b2b3;
-  --accent:#f0b23e; --accent-ink:#2b1c00; --link:#7cc8d3; --on-link:#0c1b1e; --bar:#3f5a61;
-  --a:#2f9d68; --b:#77b040; --c:#d0902a; --d:#d4544e; --na:#8a9496; --on-grade:#0d1416;
+  --bg:#101916; --surface:#18231f; --surface-2:#22302b; --line:#33443d;
+  --fg:#eef2ee; --muted:#a7b5ae;
+  --band:#152420; --band-2:#22302b; --on-band:#eef2ee; --on-band-muted:#a7b5ae;
+  --accent:#ff9166; --accent-ink:#35100a; --sun:#f0b23e; --link:#7ed3b9; --on-link:#082019; --bar:#3b5a50; --top:#0d2f28; --top-2:#174a3f;
+  --a:#2f9d68; --b:#77b040; --c:#d0902a; --d:#d4544e; --na:#8a9691; --on-grade:#0c1512;
   --ga:#4fd08a; --gb:#a8d86a; --gc:#f6c453; --gd:#ff8078;
   --warn-bg:#3a2e12; --warn-fg:#f4dca6;
   --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark } }
 :root[data-theme="dark"]{
-  --bg:#141a1c; --surface:#1c2427; --surface-2:#263135; --line:#36444a;
-  --fg:#eef0ec; --muted:#a8b2b3;
-  --band:#192124; --band-2:#263135; --on-band:#eef0ec; --on-band-muted:#a8b2b3;
-  --accent:#f0b23e; --accent-ink:#2b1c00; --link:#7cc8d3; --on-link:#0c1b1e; --bar:#3f5a61;
-  --a:#2f9d68; --b:#77b040; --c:#d0902a; --d:#d4544e; --na:#8a9496; --on-grade:#0d1416;
+  --bg:#101916; --surface:#18231f; --surface-2:#22302b; --line:#33443d;
+  --fg:#eef2ee; --muted:#a7b5ae;
+  --band:#152420; --band-2:#22302b; --on-band:#eef2ee; --on-band-muted:#a7b5ae;
+  --accent:#ff9166; --accent-ink:#35100a; --sun:#f0b23e; --link:#7ed3b9; --on-link:#082019; --bar:#3b5a50; --top:#0d2f28; --top-2:#174a3f;
+  --a:#2f9d68; --b:#77b040; --c:#d0902a; --d:#d4544e; --na:#8a9691; --on-grade:#0c1512;
   --ga:#4fd08a; --gb:#a8d86a; --gc:#f6c453; --gd:#ff8078;
   --warn-bg:#3a2e12; --warn-fg:#f4dca6;
   --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark }
@@ -717,7 +717,7 @@ a.hb:hover span{text-decoration:underline}
 
 /* ----- Identité novembre 2026 : ajustements ----- */
 body{font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-weight:650;letter-spacing:-.005em;line-height:1.15}
+h1,h2,h3{font-weight:750;letter-spacing:-.005em;line-height:1.15}
 a{text-underline-offset:3px;text-decoration-thickness:1px}
 a:hover{text-decoration-thickness:2px}
 :focus-visible{outline:3px solid var(--link);outline-offset:2px}
@@ -729,15 +729,15 @@ body::before{background:var(--surface)}
 .top a.nav,.top button.nav{color:var(--fg);border-radius:8px}
 .top a.nav[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--accent);border-radius:0}
 .band{border-bottom:1px solid var(--line)}
-.band h1{font-weight:650;font-size:clamp(2rem,5.4vw,3.1rem);max-width:19ch;line-height:1.08}
+.band h1{font-weight:750;font-size:clamp(2rem,5.4vw,3.1rem);max-width:19ch;line-height:1.08}
 .band .lede{font-size:1.15rem;color:var(--on-band-muted)}
-.block h2{font-size:1.7rem;font-weight:650}
+.block h2{font-size:1.7rem;font-weight:750}
 .search input{height:64px;border-radius:10px;border:2px solid var(--fg);font-size:1.15rem}
 .search input:focus{border-color:var(--link);box-shadow:0 0 0 3px color-mix(in srgb,var(--link) 25%,transparent)}
 .search input::placeholder{color:var(--muted);opacity:1}
 .sugg,.near-list{border-radius:10px;border:1px solid var(--line)}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
-.tile .val,.price b,.hero-num,.answer .big{font-weight:650}
+.tile .val,.price b,.hero-num,.answer .big{font-weight:750}
 .grade{border-radius:10px;font-family:var(--text);font-weight:700}
 .q-head .grade{border-radius:12px}
 .rank{font-family:var(--text);font-weight:700}
@@ -752,7 +752,7 @@ body::before{background:var(--surface)}
 .how .txt b::before,.asteps .n{font-family:var(--text)}
 .v-search{border:1.5px solid var(--fg);border-radius:8px}
 .v-sugg,.v-sum>div,.v-cmp>div{border:1px solid var(--line);border-radius:8px}
-.menu a,.menu button{font-weight:650}
+.menu a,.menu button{font-weight:750}
 .note{border-radius:8px;border-left:4px solid var(--accent)}
 .why{border-left-color:var(--accent)}
 .cols19 .md{background:var(--fg)}
@@ -760,7 +760,7 @@ body::before{background:var(--surface)}
 .picto i{border-radius:40% 40% 5px 5px / 34% 34% 5px 5px}
 .kicker{font-size:.95rem;font-weight:600;color:var(--on-band-muted);opacity:1}
 .upd{opacity:1;color:var(--on-band-muted)}
-.acc summary b,.row h3,.news h3,.ana h3{font-weight:650}
+.acc summary b,.row h3,.news h3,.ana h3{font-weight:750}
 .fam .t{font-weight:700}
 footer{font-size:.92rem}
 @media (max-width:720px){body{font-size:17px}}
@@ -804,7 +804,7 @@ footer{font-size:.92rem}
 .rows li{border-bottom:1px solid var(--line);scroll-margin-top:84px}
 .rows a{display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr) auto;gap:8px 28px;align-items:center;padding:20px 6px;color:var(--fg);text-decoration:none}
 .rows a:hover{background:var(--surface)}
-.rw-t b{display:block;font-family:var(--display);font-size:1.35rem;font-weight:650;line-height:1.2}
+.rw-t b{display:block;font-family:var(--display);font-size:1.35rem;font-weight:750;line-height:1.2}
 .rw-t small{color:var(--muted);font-size:.92rem}
 .rw-m{color:var(--fg)}
 .rw-m em{display:block;font-style:normal;font-size:.9rem;font-weight:600;color:var(--link);margin-bottom:2px}
@@ -812,7 +812,7 @@ footer{font-size:.92rem}
 .rows a:hover .rw-go{text-decoration:underline}
 .srcs{list-style:none!important;padding:0!important;gap:0!important;border-top:2px solid var(--fg);margin-top:14px!important}
 .srcs li{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
-.s-k{font-family:var(--display);font-weight:650;font-size:1.1rem}
+.s-k{font-family:var(--display);font-weight:750;font-size:1.1rem}
 .srcs b{font-size:1.1rem}
 .srcs small{color:var(--muted)}
 .srcs p{margin-top:4px!important}
@@ -835,3 +835,36 @@ footer{font-size:.92rem}
   .srcs li{grid-template-columns:minmax(0,1fr);gap:2px}
 }
 .checks b{grid-column:2;grid-row:1}.checks span{grid-row:2}
+
+/* ----- Identité v2 (14 novembre 2026) : vert sapin, corail, miel, titres épais, maisons en illustration ----- */
+h1,h2,h3{letter-spacing:-.02em}
+.band h1{font-weight:800;font-size:clamp(2.1rem,5.8vw,3.3rem);line-height:1.05}
+.block h2{font-size:1.75rem}
+.top{background:var(--top);border-bottom:0}
+body::before{background:var(--top)}
+.logo{color:#fbf8ef;font-weight:800}
+.logo i{background:var(--accent)}
+.logo i::after{background:var(--top)}
+.top a.nav,.top button.nav{color:#fbf8ef}
+.top .nav:hover{background:var(--top-2)}
+.top a.nav[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--accent)}
+.band{border-bottom:0}
+.search input{border-radius:14px;border-color:var(--link)}
+.btn{border-radius:12px}
+.tile{border-color:transparent}
+.grade{font-family:var(--display)}
+.how li,.cities a,.ana,.fr,.aid,.news article{border-top:4px solid var(--link)}
+.how li:nth-child(3n+2),.cities li:nth-child(3n+2) a,.anas>:nth-child(3n+2),.news article:nth-child(3n+2){border-top-color:var(--sun)}
+.how li:nth-child(3n),.cities li:nth-child(3n) a,.anas>:nth-child(3n),.news article:nth-child(3n){border-top-color:var(--accent)}
+.brief{border-top-color:var(--link)}
+.rows{border-top-color:var(--link);border-top-width:4px}
+.srcs{border-top-color:var(--link)}
+.note,.callout,.why{border-left-color:var(--accent)}
+.ab-stats div{border-left-color:var(--accent)}
+.checks li::before{background:var(--link);color:var(--on-link)}
+@media (min-width:960px){
+  .band.ill{background-image:url(/maisons.svg);background-repeat:no-repeat;background-position:right max(28px,calc(50% - 492px)) bottom;background-size:350px auto}
+}
+@media (max-width:959px){
+  .band.ill .wrap{padding-bottom:104px;background:url(/maisons.svg) no-repeat right 16px bottom/150px auto}
+}

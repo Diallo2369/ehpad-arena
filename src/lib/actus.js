@@ -134,7 +134,7 @@ const anaCard = (a) => `<a class="card ana" href="/actualites/${a.slug}/"><p cla
 
 export function renderActusHub({ ana, news, meta }) {
   const last = news.map((a) => a.date).sort().at(-1);
-  return `<section class="band"><div class="wrap"><h1>Actualités et chiffres des EHPAD</h1><p class="lede">Nos analyses calculées sur les données publiques, et l'actualité officielle du secteur.</p>
+  return `<section class="band ill"><div class="wrap"><h1>Actualités et chiffres des EHPAD</h1><p class="lede">Nos analyses calculées sur les données publiques, et l'actualité officielle du secteur.</p>
   <p class="upd">Chiffres recalculés le ${dateFr(meta.built)} · Dernière actualité le ${dateFr(last)}</p></div></section>
 <section class="block"><div class="wrap">
   <h2>Nos analyses</h2>

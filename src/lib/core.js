@@ -141,7 +141,7 @@ function tiles3(items) {
 // ---------- pages ----------
 export function renderHome({ nat, cities, regions }) {
   const p = (v) => (((v - 1500) / 2500) * 100).toFixed(1);
-  return `<section class="band hero"><div class="wrap">
+  return `<section class="band ill hero"><div class="wrap">
   <h1>Combien coûte un EHPAD près de chez vous ?</h1>
   <p class="lede">Prix, avis et aides pour chaque maison de retraite médicalisée.</p>
   ${searchBox("q")}

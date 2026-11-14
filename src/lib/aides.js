@@ -123,7 +123,7 @@ export function renderAidesHub({ A, heb, dep, med }) {
     ["Si le reste à payer est trop lourd", "Déposez une demande d'aide sociale à l'hébergement à la mairie."],
     ["Chaque année", "Déclarez les frais payés dans votre déclaration de revenus pour la réduction d'impôt."],
   ];
-  return `<section class="band"><div class="wrap"><h1>Quelles aides pour payer un EHPAD ?</h1><p class="lede">Quatre aides réduisent la facture d'une maison de retraite médicalisée. Elles peuvent se cumuler.</p></div></section>
+  return `<section class="band ill"><div class="wrap"><h1>Quelles aides pour payer un EHPAD ?</h1><p class="lede">Quatre aides réduisent la facture d'une maison de retraite médicalisée. Elles peuvent se cumuler.</p></div></section>
 <section class="block"><div class="wrap">
   <h2>Les 4 aides</h2>
   <ul class="rows">${A.map((a) => `<li id="${a.id}"><a href="/aides/${a.slug}/"><span class="rw-t"><b>${a.name}</b><small>${a.full}</small></span><span class="rw-m"><em>${a.tag}</em>${a.short}</span><span class="rw-go">Tout savoir <i>→</i></span></a></li>`).join("")}</ul>
