@@ -90,10 +90,10 @@ export function analyses({ nat, deps }) {
         `Prix médian : <b>${eur(ma)}</b> par mois dans un EHPAD habilité, <b>${eur(mn)}</b> dans un EHPAD non habilité.`,
         `<b>${pct(nat.nash, nat.n)} %</b> des EHPAD sont habilités, en totalité ou en partie. Presque tous les EHPAD publics le sont.`,
         `Dans un EHPAD habilité, le prix d'hébergement des places habilitées est fixé chaque année par le département. Ailleurs, il est libre à l'entrée.`,
-        `Seul un EHPAD habilité permet de demander l'<a href="/aides/#ash">aide sociale à l'hébergement</a> si vos revenus ne suffisent pas.`,
+        `Seul un EHPAD habilité permet de demander l'<a href="/aides/aide-sociale-hebergement-ash/">aide sociale à l'hébergement</a> si vos revenus ne suffisent pas.`,
       ],
       read: `Nous comparons le prix médian des EHPAD habilités à l'aide sociale et celui des autres. L'habilitation peut être partielle : seules certaines places sont alors au tarif fixé par le département. Sur chaque fiche d'établissement, nous indiquons s'il est habilité.`,
-      links: [["L'aide sociale à l'hébergement", "/aides/#ash"], ["Prix des EHPAD par département", "/actualites/prix-ehpad-par-departement/"]],
+      links: [["L'aide sociale à l'hébergement", "/aides/aide-sociale-hebergement-ash/"], ["Prix des EHPAD par département", "/actualites/prix-ehpad-par-departement/"]],
     },
     qp && {
       slug: "prix-et-qualite-ehpad", k: "Prix et qualité", src: ["cnsa", "has", "finess"],
@@ -150,7 +150,7 @@ export function renderActusHub({ ana, news, meta }) {
 export function renderAnalysis({ a, ana, meta }) {
   const others = ana.filter((x) => x.slug !== a.slug);
   return `<section class="band"><div class="wrap"><p class="crumb"><a href="/">Accueil</a><span>›</span><a href="/actualites/">Actualités</a></p>
-  <p class="kicker">Analyse · ${a.k}</p><h1>${esc(a.title)}</h1><p class="lede">${a.head}</p>
+  <p class="kicker">Analyse · ${a.k}</p><h1>${esc(a.title).replace(" : ", "&nbsp;: ")}</h1><p class="lede">${a.head}</p>
   <p class="upd">Mis à jour le ${dateFr(meta.built)}</p></div></section>
 <section class="block"><div class="wrap">
   ${a.body()}
@@ -170,7 +170,7 @@ export function renderAnalysis({ a, ana, meta }) {
 export function renderNews({ n, news, ana }) {
   const others = news.filter((x) => x.slug !== n.slug).slice(0, 3);
   return `<section class="band"><div class="wrap"><p class="crumb"><a href="/">Accueil</a><span>›</span><a href="/actualites/">Actualités</a></p>
-  <p class="kicker"><time datetime="${n.date}">${dateFr(n.date)}</time> · ${esc(n.source)}</p><h1>${esc(n.title)}</h1></div></section>
+  <p class="kicker"><time datetime="${n.date}">${dateFr(n.date)}</time> · ${esc(n.source)}</p><h1>${esc(n.title).replace(" : ", "&nbsp;: ")}</h1></div></section>
 <section class="block"><div class="wrap art">
   <p class="art-lead">${esc(n.text)}</p>
   ${(n.body || []).map((p) => `<p>${esc(p)}</p>`).join("")}

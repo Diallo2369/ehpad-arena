@@ -280,10 +280,10 @@ export function renderFiche({ e, c, dep, peers, gUrl }) {
     <p class="tx"><a href="https://www.has-sante.fr/fiche-essms/${e.id}" target="_blank" rel="noopener">Vérifier sur le site de la HAS</a></p>`;
 
   const aid = `<ul class="aids" style="margin-top:6px">
-      <li><b>APA en établissement</b> (GIR 1 à 4) : elle paie une partie du tarif dépendance au-delà du tarif GIR 5-6, déjà compté ici, selon vos revenus.</li>
-      <li><b>Aide au logement</b> (APL ou ALS), selon les revenus.</li>
-      <li><b>Aide sociale à l'hébergement</b> : ${e.ash ? "cet établissement est habilité à recevoir des bénéficiaires." : "cet établissement n'est pas habilité, d'après l'annuaire FINESS."}</li>
-      <li><b>Réduction d'impôt</b> de 25 % des frais, jusqu'à 2 500 € par an, pour les résidents imposables.</li>
+      <li><a href="/aides/apa-en-ehpad/"><b>APA en établissement</b></a> (GIR 1 à 4) : elle paie une partie du tarif dépendance au-delà du tarif GIR 5-6, déjà compté ici, selon vos revenus.</li>
+      <li><a href="/aides/aide-au-logement-ehpad/"><b>Aide au logement</b></a> (APL ou ALS), selon les revenus.</li>
+      <li><a href="/aides/aide-sociale-hebergement-ash/"><b>Aide sociale à l'hébergement</b></a> : ${e.ash ? "cet établissement est habilité à recevoir des bénéficiaires." : "cet établissement n'est pas habilité, d'après l'annuaire FINESS."}</li>
+      <li><a href="/aides/reduction-impot-ehpad/"><b>Réduction d'impôt</b></a> de 25 % des frais, jusqu'à 2 500 € par an, pour les résidents imposables.</li>
     </ul><p class="tx"><a href="/aides/">Toutes les aides en détail</a></p>`;
 
   return `<section class="band on-band"><div class="wrap">
@@ -318,69 +318,6 @@ export function renderCompare() {
 <section class="block"><div class="wrap"><div id="cmp"><p class="tx">Chargement…</p></div></div></section>`;
 }
 
-export function renderAides({ heb, dep, med }) {
-  const A = [
-    { id: "apa", name: "APA en établissement", full: "Allocation personnalisée d'autonomie", tag: "Si GIR 1 à 4",
-      who: "Personnes de 60 ans ou plus, évaluées en GIR 1 à 4 (perte d'autonomie) par le médecin de l'établissement.",
-      gain: "Elle paie le supplément de dépendance au-delà du tarif GIR 5-6. Sous 2 846,77 € de revenus par mois (seuil 2026), elle le paie en totalité.",
-      where: "Auprès de la direction de l'EHPAD, qui indique les démarches. Versée par le département.",
-      more: "Le tarif dépendance dépend du degré d'autonomie : plus il est élevé (GIR 1 et 2), plus il coûte. Chaque résident paie au minimum le tarif GIR 5-6, déjà compté dans nos prix par mois. L'APA paie la différence entre le tarif de votre GIR et ce tarif GIR 5-6. Au-dessus de 2 846,77 € de revenus par mois, une partie de cette différence reste à votre charge, d'autant plus grande que vos revenus sont élevés." },
-    { id: "logement", name: "Aide au logement", full: "APL ou ALS", tag: "Selon vos revenus",
-      who: "Tout résident dont l'EHPAD est la résidence principale, selon ses revenus.",
-      gain: "Elle réduit le prix de l'hébergement chaque mois.",
-      where: "Auprès de la CAF, ou de la MSA pour les personnes relevant du régime agricole.",
-      more: "L'APL concerne les établissements conventionnés APL ; l'ALS concerne les autres. Les deux ne se cumulent pas. L'APL est versée directement à l'établissement, qui la déduit de la facture." },
-    { id: "ash", name: "Aide sociale à l'hébergement", full: "ASH", tag: "Si vos revenus ne suffisent pas",
-      who: "Résidents dont les ressources ne suffisent pas à payer l'hébergement, dans un EHPAD habilité à l'aide sociale.",
-      gain: "Le département paie la part de l'hébergement que vous ne pouvez pas payer.",
-      where: "Auprès du conseil départemental, souvent par l'intermédiaire de la mairie (CCAS).",
-      more: "Vos revenus servent d'abord à payer l'établissement ; une petite partie reste à votre disposition. Vos enfants (obligés alimentaires) peuvent être sollicités selon leurs moyens. Les sommes versées par le département peuvent être récupérées de votre vivant (retour à meilleure fortune) ou sur la succession. Sur chaque fiche d'EHPAD Arena, nous indiquons si l'établissement est habilité." },
-    { id: "impot", name: "Réduction d'impôt", full: "Frais de dépendance et d'hébergement", tag: "Si vous êtes imposable",
-      who: "Résidents imposables qui paient eux-mêmes des frais d'EHPAD.",
-      gain: "25 % des frais payés, jusqu'à 2 500 € par an et par personne hébergée.",
-      where: "Dans la déclaration de revenus, l'année suivant les dépenses.",
-      more: "Les dépenses sont retenues dans la limite de 10 000 € par an et par personne hébergée, d'où une réduction de 2 500 € au plus. Les aides reçues (APA, aide au logement, aide sociale) sont déduites des dépenses. Une réduction d'impôt ne profite pas aux personnes non imposables." },
-  ];
-  const w = (heb / (heb + dep)) * 100;
-  const STEPS = [
-    ["Avant de choisir", "Si vos revenus risquent de ne pas suffire, choisissez un EHPAD habilité à l'aide sociale : c'est indiqué sur chaque fiche."],
-    ["À l'entrée", "Demandez l'APA à la direction de l'EHPAD et l'aide au logement à la CAF ou à la MSA."],
-    ["Si le reste à payer est trop lourd", "Déposez une demande d'aide sociale à l'hébergement au département, via la mairie."],
-    ["Chaque année", "Déclarez les frais payés dans votre déclaration de revenus pour la réduction d'impôt."],
-  ];
-  return `<section class="band"><div class="wrap"><h1>Quelles aides pour payer un EHPAD ?</h1><p class="lede">Quatre aides réduisent la facture d'une maison de retraite médicalisée. Elles peuvent se cumuler.</p>
-  <nav class="aid-jump" aria-label="Les aides">${A.map((a) => `<a href="#${a.id}">${a.name}</a>`).join("")}</nav></div></section>
-<section class="block"><div class="wrap">
-  <h2>Ce que couvre chaque aide</h2>
-  <div class="card pad bill">
-    <p class="k">Une facture type : environ ${eur(Math.round(med / 50) * 50)} par mois</p>
-    <div class="bill-bar" role="img" aria-label="Hébergement ${eur(heb)}, dépendance ${eur(dep)}"><i class="b-h" style="width:${w.toFixed(1)}%"></i><i class="b-d"></i></div>
-    <div class="bill-leg">
-      <div><span class="sw b-h"></span><div><b>Hébergement · ${eur(heb)}</b><p>Le logement, les repas, l'entretien, l'animation. Réduit par l'<a href="#logement">aide au logement</a> et l'<a href="#ash">aide sociale</a>.</p></div></div>
-      <div><span class="sw b-d"></span><div><b>Dépendance · ${eur(dep)}</b><p>L'aide à la toilette, aux repas, aux déplacements. Ce montant est le minimum payé par tous (tarif GIR 5-6). Au-delà, l'<a href="#apa">APA</a> paie le supplément.</p></div></div>
-      <div><span class="sw b-t"></span><div><b>Après la facture</b><p>Ce qui reste payé ouvre droit à la <a href="#impot">réduction d'impôt</a>.</p></div></div>
-    </div>
-    <p class="src">Valeurs médianes des prix déclarés à la CNSA pour une chambre seule. Les soins médicaux sont payés par l'Assurance maladie et ne figurent pas sur la facture.</p>
-  </div>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>Les 4 aides</h2>
-  <div class="aidg">${A.map((a) => `<article class="card aid" id="${a.id}">
-    <header><h3>${a.name}</h3><span class="aid-tag">${a.tag}</span></header>
-    <p class="aid-full">${a.full}</p>
-    <dl><dt>Pour qui</dt><dd>${a.who}</dd><dt>Ce qu'elle apporte</dt><dd class="aid-gain">${a.gain}</dd><dt>Où la demander</dt><dd>${a.where}</dd></dl>
-    <details><summary>En savoir plus</summary><p>${a.more}</p></details>
-  </article>`).join("")}</div>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>Dans quel ordre faire les démarches</h2>
-  <ol class="asteps">${STEPS.map((x, i) => `<li><span class="n">${i + 1}</span><div><b>${x[0]}</b><p>${x[1]}</p></div></li>`).join("")}</ol>
-  <div class="card pad sim"><div><b>Combien vous restera-t-il à payer ?</b><p>Le simulateur officiel calcule votre reste à charge dans un EHPAD précis, après APA et aide au logement.</p></div><a class="btn" href="https://www.pour-les-personnes-agees.gouv.fr" target="_blank" rel="noopener">Ouvrir le simulateur</a></div>
-  <p class="note" style="margin-top:14px">Dans 23 départements, un nouveau mode de financement est expérimenté depuis juillet 2025 : le tarif dépendance y est fondu dans un forfait global.</p>
-  <p class="src" style="margin-top:12px">Sources : portail national pour-les-personnes-agees.gouv.fr (APA en établissement, mis à jour le 9 juin 2026 ; aides au logement et ASH, mis à jour le 20 novembre 2025) et economie.gouv.fr (réduction d'impôt).</p>
-</div></section>`;
-}
-
 // Prix médian selon le niveau officiel : en tout, puis à statut égal.
 export function qualityPrice(qp) {
   const L = Object.keys(qp.all), top = Math.max(...L.map((l) => qp.all[l][1]));
@@ -404,57 +341,50 @@ export function qualityPrice(qp) {
 export function renderAbout({ contact, nat, meta, cs, g56 }) {
   const DG = "https://www.data.gouv.fr/fr/datasets/";
   const SRC = [
-    ["Prix", "CNSA", "Caisse nationale de solidarité pour l'autonomie", "Les prix d'hébergement et les tarifs dépendance déclarés par chaque EHPAD.", `Mis à jour le ${dateFr(meta.cnsaUpdated)}`, DG + "prix-hebergement-et-tarifs-dependance-des-ehpad-donnees-brutes/"],
-    ["Qualité", "HAS", "Haute Autorité de santé", "Les résultats des évaluations : niveau officiel, 9 thèmes notés, exigences essentielles.", `Mis à jour le ${dateFr(meta.hasUpdated)}`, DG + "resultats-devaluation-des-etablissements-et-services-sociaux-et-medico-sociaux-essms/"],
-    ["Annuaire", "FINESS", "Ministère de la Santé", "Le nom, l'adresse, le téléphone, le statut et la position de chaque établissement.", esc(meta.finess), DG + "finess-extraction-du-fichier-des-etablissements/"],
+    ["Les prix", "CNSA", "Caisse nationale de solidarité pour l'autonomie", "Le prix d'hébergement et les tarifs dépendance déclarés par chaque EHPAD.", `Mise à jour du ${dateFr(meta.cnsaUpdated)}`, DG + "prix-hebergement-et-tarifs-dependance-des-ehpad-donnees-brutes/"],
+    ["La qualité", "HAS", "Haute Autorité de santé", "Le résultat de l'évaluation : niveau officiel, 9 thèmes notés, exigences essentielles.", `Mise à jour du ${dateFr(meta.hasUpdated)}`, DG + "resultats-devaluation-des-etablissements-et-services-sociaux-et-medico-sociaux-essms/"],
+    ["L'annuaire", "FINESS", "Ministère de la Santé", "Le nom, l'adresse, le téléphone, le statut et la position de chaque établissement.", esc(meta.finess), DG + "finess-extraction-du-fichier-des-etablissements/"],
   ];
   const ENG = [
     ["Gratuit", "Toutes les pages, pour tout le monde."],
     ["Sans inscription", "Aucun compte, aucune adresse e-mail demandée."],
-    ["Indépendant", "Aucun établissement ne peut payer pour être mis en avant ou modifier sa fiche."],
+    ["Indépendant", "Aucun établissement ne peut payer pour être mis en avant ou pour modifier sa fiche."],
     ["Sans cookie", "Aucun cookie tant que la publicité est éteinte."],
   ];
+  const TOC = [["pourquoi", "Pourquoi ce site"], ["sources", "D'où viennent les chiffres"], ["prix", "Le prix par mois"], ["qualite", "Le niveau officiel et la note"], ["avis", "Les avis des familles"], ["engagements", "Nos engagements"], ["erreur", "Signaler une erreur"]];
   return `<section class="band"><div class="wrap"><h1>À propos d'EHPAD Arena</h1><p class="lede">Pourquoi ce site et d'où viennent les chiffres.</p>
   <div class="ab-stats num"><div><b>${cnt(nat.n, "int")}</b><span>EHPAD en France</span></div><div><b>${cnt(nat.np, "int")}</b><span>avec un prix publié</span></div><div><b>${cnt(nat.nh, "int")}</b><span>évalués par la HAS</span></div><div><b>3</b><span>sources officielles</span></div></div></div></section>
-<section class="block"><div class="wrap">
-  <h2>Pourquoi ce site</h2>
-  <div class="ab-why">
-    <div class="ab-txt"><p>Choisir un EHPAD se fait souvent dans l'urgence, après une chute ou une hospitalisation. Les informations utiles sont publiques, mais dispersées sur plusieurs sites.</p>
-    <p>EHPAD Arena les réunit sur une seule page par établissement, avec un résumé lisible en quelques secondes. Le site fait partie de la famille Job Arena, Scol Arena et Eau Arena.</p></div>
-    <div class="ab-flow" aria-hidden="true">
-      <div class="ab-from"><span><b>Prix</b>CNSA</span><span><b>Qualité</b>HAS</span><span><b>Avis</b>Google</span></div>
-      <div class="ab-arrow"></div>
-      <div class="ab-to"><small>Une page par EHPAD</small><div><b>${eur(nat.med)}</b><span>par mois</span></div><div class="ab-row"><i class="lb lv-A">A</i><span>Niveau officiel</span></div><div class="ab-row"><i class="ab-star">★</i><span>Avis des familles</span></div></div>
-    </div>
-  </div>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>D'où viennent les chiffres</h2>
-  <div class="ab-src">${SRC.map((x) => `<a class="card ab-s" href="${x[5]}" target="_blank" rel="noopener"><p class="k">${x[0]}</p><b>${x[1]}</b><small>${x[2]}</small><p>${x[3]}</p><span class="ab-d">${x[4]} · data.gouv.fr ↗</span></a>`).join("")}</div>
-  <p class="src" style="margin-top:12px">Données publiques réutilisées sous Licence Ouverte. Le site est recalculé chaque semaine ; dernier calcul le ${dateFr(meta.built)}.</p>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>Comment nous calculons</h2>
-  <div class="ab-calc">
-    <div class="card pad"><p class="k">Le prix par mois</p>
+<section class="block"><div class="wrap doc">
+  <aside class="doc-side"><nav class="toc" aria-label="Sur cette page"><b>Sur cette page</b>${TOC.map((t) => `<a href="#${t[0]}">${t[1]}</a>`).join("")}</nav></aside>
+  <article class="doc-main">
+    <section id="pourquoi"><h2>Pourquoi ce site</h2>
+      <p class="doc-lead">Choisir un EHPAD se fait souvent dans l'urgence, après une chute ou une hospitalisation. Les informations utiles sont publiques, mais dispersées sur plusieurs sites.</p>
+      <p>EHPAD Arena les réunit sur une seule page par établissement, avec un résumé lisible en quelques secondes : le prix par mois, le niveau de qualité officiel et un accès aux avis des familles. Le site fait partie de la famille Job Arena, Scol Arena et Eau Arena.</p></section>
+    <section id="sources"><h2>D'où viennent les chiffres</h2>
+      <p>Trois sources officielles, toutes publiques.</p>
+      <ul class="srcs">${SRC.map((x) => `<li><span class="s-k">${x[0]}</span><div><b>${x[1]}</b> <small>${x[2]}</small><p>${x[3]}</p><p class="s-d">${x[4]} · <a href="${x[5]}" target="_blank" rel="noopener">voir les données sur data.gouv.fr ↗</a></p></div></li>`).join("")}</ul>
+      <p class="src">Données publiques réutilisées sous Licence Ouverte. Le site est recalculé chaque semaine ; dernier calcul le ${dateFr(meta.built)}.</p></section>
+    <section id="prix"><h2>Le prix par mois</h2>
+      <p>Nous additionnons le prix d'hébergement et le tarif dépendance minimum, pour 30 jours, dans une chambre seule.</p>
       <div class="ab-eq num"><div><b>${eur2(cs)}</b><span>hébergement par jour</span></div><i>+</i><div><b>${eur2(g56)}</b><span>dépendance par jour (GIR 5-6)</span></div><i>× 30</i><div class="r"><b>${eur(Math.round((cs + g56) * 30))}</b><span>par mois</span></div></div>
-      <p>Prix d'une chambre seule, avant les aides. Le tarif dépendance GIR 5-6 est le minimum payé par chaque résident ; les <a href="/aides/">aides</a> réduisent ensuite la facture. Nous affichons le dernier tarif déclaré : un tarif plus récent peut s'appliquer.</p>
-      <p class="src">Exemple avec les valeurs médianes en France.</p></div>
-    <div class="card pad"><p class="k">Le niveau officiel et la note sur 10</p>
-      <div class="ab-lv">${[..."ABCD"].map((l) => `<i class="lb lv-${l}">${l}</i>`).join("")}<span>Niveau attribué par la HAS, de A (le meilleur) à D. Affiché tel quel.</span></div>
-      <div class="ab-split"><div style="flex:7"><b>70 %</b><span>les 9 thèmes notés</span></div><div style="flex:3"><b>30 %</b><span>exigences essentielles</span></div></div>
-      <p>Notre note sur 10, calculée sur la même évaluation, sert à départager les EHPAD d'un même niveau.</p>
-      <p class="ab-order"><span>Classement</span><b>1. Niveau</b><b>2. Note</b><b>3. Prix</b></p>
-      <p class="src">La HAS évalue surtout l'organisation et la démarche qualité ; elle précise que ce premier cycle se prête mal aux comparaisons. Seuls les EHPAD dont l'évaluation est publiée sont classés.</p></div>
-  </div>
-  <p class="note" style="margin-top:14px">Les avis des familles sont ceux publiés sur Google. EHPAD Arena n'en recueille aucun, et ils ne comptent pas dans la note.</p>
-</div></section>
-<section class="block"><div class="wrap">
-  <h2>Nos engagements</h2>
-  <ul class="ab-eng">${ENG.map((x) => `<li class="card"><span class="ab-ck">✓</span><b>${x[0]}</b><p>${x[1]}</p></li>`).join("")}</ul>
-</div></section>
-<section class="block"><div class="wrap">
-  <div class="card pad sim" id="erreur"><div><b>Une erreur sur une fiche ?</b><p>Écrivez-nous en précisant l'établissement. Nous comparons avec la source officielle et corrigeons sous quelques jours. Si l'erreur vient de la source, nous vous indiquons à qui vous adresser.</p></div><a class="btn" href="mailto:${esc(contact)}?subject=${encodeURIComponent("Erreur sur une fiche EHPAD Arena")}">${esc(contact)}</a></div>
+      <p class="src" style="margin-top:0">Exemple avec les valeurs médianes en France.</p>
+      <ul><li>C'est le prix avant les <a href="/aides/">aides</a>, qui réduisent ensuite la facture.</li><li>Le tarif dépendance GIR 5-6 est le minimum payé par chaque résident.</li><li>Nous affichons le dernier tarif déclaré par l'établissement : un tarif plus récent peut s'appliquer.</li></ul></section>
+    <section id="qualite"><h2>Le niveau officiel et la note</h2>
+      <p>Chaque EHPAD est évalué par un organisme indépendant, selon le référentiel de la Haute Autorité de santé. Nous affichons deux choses.</p>
+      <div class="two">
+        <div><h3>Le niveau officiel</h3><p class="ab-lv">${[..."ABCD"].map((l) => `<i class="lb lv-${l}">${l}</i>`).join("")}</p><p>Attribué par la HAS, de A (le meilleur) à D. Nous l'affichons tel quel.</p></div>
+        <div><h3>Notre note sur 10</h3><div class="ab-split"><div style="flex:7"><b>70 %</b><span>les 9 thèmes notés</span></div><div style="flex:3"><b>30 %</b><span>exigences essentielles</span></div></div><p>Calculée sur la même évaluation, elle sert à départager les EHPAD d'un même niveau.</p></div>
+      </div>
+      <p class="ab-order"><span>Ordre du classement</span><b>1. Niveau officiel</b><b>2. Note</b><b>3. Prix</b></p>
+      <p class="note">La HAS évalue surtout l'organisation et la démarche qualité. Elle précise que ce premier cycle d'évaluations se prête mal aux comparaisons. Seuls les EHPAD dont l'évaluation est publiée sont classés.</p></section>
+    <section id="avis"><h2>Les avis des familles</h2>
+      <p>Ce sont ceux publiés sur Google : chaque fiche y renvoie. EHPAD Arena n'en recueille aucun, et ils ne comptent pas dans la note.</p></section>
+    <section id="engagements"><h2>Nos engagements</h2>
+      <ul class="checks">${ENG.map((x) => `<li><b>${x[0]}</b><span>${x[1]}</span></li>`).join("")}</ul></section>
+    <section id="erreur"><h2>Signaler une erreur</h2>
+      <p>Écrivez-nous en précisant l'établissement. Nous comparons avec la source officielle et corrigeons sous quelques jours. Si l'erreur vient de la source, nous vous indiquons à qui vous adresser.</p>
+      <p style="margin-top:14px"><a class="btn" href="mailto:${esc(contact)}?subject=${encodeURIComponent("Erreur sur une fiche EHPAD Arena")}">Écrire à ${esc(contact)}</a></p></section>
+  </article>
 </div></section>`;
 }
 
