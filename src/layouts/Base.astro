@@ -42,7 +42,7 @@ const search = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stro
   <a class="skip" href="#app">Aller au contenu</a>
   <header class="top">
     <div class="wrap">
-      <a class="logo" href="/" aria-label="EHPAD Arena, accueil"><i aria-hidden="true"></i>EHPAD Arena</a>
+      <a class="logo" href="/" aria-label="EHPAD Arena, accueil"><i aria-hidden="true"></i><span>EHPAD</span><span class="ar">Arena</span></a>
       <button type="button" class="nav" id="findBtn" aria-controls="sov" aria-label="Rechercher une commune"><Fragment set:html={search} /><span class="hide-m">Rechercher</span></button>
       {nav.map(([k, href, label]) => <a class="nav hide-m" href={href} aria-current={k === page ? "page" : undefined}>{label}</a>)}
       <button type="button" class="nav burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu"><svg class="i-b" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="i-x" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
