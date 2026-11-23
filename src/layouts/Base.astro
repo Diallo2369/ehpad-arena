@@ -56,13 +56,14 @@ const search = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stro
     <a href="/actualites/">Actualités</a>
     <a href="/a-propos/">À propos</a>
   </nav>
-  <div class="sov" id="sov" role="dialog" aria-modal="true" aria-label="Rechercher une commune ou un établissement" hidden>
-    <div class="sov-panel wrap">
+  <div class="sov" id="sov" hidden>
+    <div class="sov-box" role="dialog" aria-modal="true" aria-labelledby="sov-t">
+      <div class="sov-head"><p class="sov-t" id="sov-t">Quelle commune ?</p><button type="button" class="sov-x" id="sovX">Fermer</button></div>
       <form class="search" role="search" action="/" data-search>
         <Fragment set:html={search} /><input id="q2" type="search" autocomplete="off" enterkeyhint="search" placeholder="Commune ou nom de l'EHPAD" aria-label="Commune ou nom de l'EHPAD" role="combobox" aria-expanded="false" aria-controls="q2-s" aria-autocomplete="list">
         <div id="q2-s" class="sugg" role="listbox" hidden></div>
       </form>
-      <button type="button" class="btn ghost on-dark" id="sovX">Fermer</button>
+      <p class="sov-hint">Une commune ouvre la liste de ses EHPAD et leurs prix ; un nom ouvre la fiche de l'établissement.</p>
     </div>
   </div>
   <main id="app" tabindex="-1"><slot /></main>

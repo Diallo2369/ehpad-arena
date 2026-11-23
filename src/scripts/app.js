@@ -36,14 +36,25 @@ burger.addEventListener("click", () => setMenu(menu.hidden));
 menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
 
 // ---------- recherche ----------
-const sov = $("#sov");
-const openSearch = () => { setMenu(false); sov.hidden = false; document.body.classList.add("noscroll"); $("#q2").focus(); getJSON("/data/search.json").catch(() => {}); };
-const closeSearch = () => { sov.hidden = true; document.body.classList.remove("noscroll"); };
-$("#findBtn").addEventListener("click", () => { const q = $("#q"); if (q) { q.focus(); q.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" }); } else openSearch(); });
+const sov = $("#sov"), homeForm = $("#q")?.closest("form");
+let lastFocus = null;
+const openSearch = () => { lastFocus = document.activeElement; setMenu(false); sov.hidden = false; document.body.classList.add("noscroll"); const q = $("#q2"); q.value = ""; q.dispatchEvent(new Event("input")); setTimeout(() => q.focus(), 30); index().catch(() => {}); };
+const closeSearch = () => { sov.hidden = true; document.body.classList.remove("noscroll"); (lastFocus?.isConnected ? lastFocus : $("#findBtn")).focus(); };
+$("#findBtn").addEventListener("click", openSearch);
 $("#menuFind").addEventListener("click", openSearch);
 $("#sovX").addEventListener("click", closeSearch);
 sov.addEventListener("click", (e) => { if (e.target === sov) closeSearch(); });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sov.hidden) closeSearch(); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !sov.hidden) closeSearch();
+  else if (e.key === "/" && sov.hidden && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && !document.activeElement.isContentEditable) { e.preventDefault(); openSearch(); }
+});
+// bouton flottant (mobile) : masqué tant que la recherche de la page d'accueil est à l'écran ou plus bas
+const fab = document.createElement("button");
+fab.type = "button"; fab.id = "fab";
+fab.innerHTML = `${$("#findBtn svg").outerHTML}Chercher un EHPAD`;
+fab.addEventListener("click", openSearch);
+document.body.append(fab);
+if (homeForm && "IntersectionObserver" in window) { fab.classList.add("off"); new IntersectionObserver((es) => es.forEach((en) => fab.classList.toggle("off", en.isIntersecting || en.boundingClientRect.top > 0))).observe(homeForm); }
 
 let IDX = null;
 async function index() {
@@ -103,6 +114,7 @@ function syncCmp() {
   $$("[data-cmp]").forEach((c) => { c.checked = sel.includes(c.dataset.cmp); });
   $$("[data-add]").forEach((b) => { b.textContent = sel.includes(b.dataset.add) ? "Dans votre comparaison" : "Ajouter à la comparaison"; });
   const t = $("#tray");
+  document.body.classList.toggle("has-tray", !!(t && sel.length));
   if (t) t.innerHTML = sel.length ? `<div class="tray"><span><b>${sel.length}</b> sélectionné${sel.length > 1 ? "s" : ""} sur 3</span><a class="btn" href="/comparer/">Comparer</a></div>` : "";
 }
 document.addEventListener("change", (e) => { const c = e.target.closest("[data-cmp]"); if (c) toggle(c.dataset.cmp); });
